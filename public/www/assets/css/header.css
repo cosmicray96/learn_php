@@ -1,0 +1,10 @@
+#header {
+display: flex;
+}
+
+#logo {
+width: 25%;
+}
+#nav_container {
+width: 75%;
+}
