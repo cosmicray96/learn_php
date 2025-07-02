@@ -1,3 +1,4 @@
+<?php require_once "../../private/src/init.php" ?>
 <html>
 
 <head>
@@ -13,6 +14,7 @@
 		echo "<p>from php, value: $value</p>";
 		?>
 		<p>hello</p>
+		<?php require __root_dir . "/private/components/posts_container.php" ?>
 	</div>
 
 </body>
