@@ -12,7 +12,9 @@
 		$value = "from php";
 		echo "<p>from php, value: $value</p>";
 		?>
+		<p>hello</p>
 	</div>
+
 </body>
 
 <script>
