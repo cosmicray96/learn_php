@@ -3,18 +3,18 @@
 
 <head>
 	<title>hello</title>
-	<link rel="stylesheet" href="/assets/css/root.css">
+	<link rel="stylesheet" href="/assets/css/layout.css">
 </head>
 
 <body id="body">
 	<div id="root">
-
-		<div id="container">
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
+		<div id="nav_bar"></div>
+		<div id="main_container">
+			<div id="side_bar_left"></div>
+			<div id="main_content"></div>
+			<div id="side_bar_right"></div>
 		</div>
+		<div id="footer"></div>
 
 	</div>
 
