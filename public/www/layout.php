@@ -3,7 +3,7 @@
 
 <head>
 	<title>hello</title>
-	<link rel="stylesheet" href="/assets/css/layout.css">
+	<link rel="stylesheet" href="/www/assets/css/layout.css">
 </head>
 
 <body id="body">
