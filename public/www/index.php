@@ -6,15 +6,8 @@
 	<link rel="stylesheet" href="/assets/css/root.css">
 </head>
 
-<body>
+<body id="body">
 	<div id="root">
-
-		<?php
-		$value = "from php";
-		echo "<p>from php, value: $value</p>";
-		?>
-		<p>hello</p>
-		<?php require __root_dir . "/private/components/posts_container.php" ?>
 	</div>
 
 </body>
