@@ -1,20 +1,18 @@
 <?php require_once "../../private/src/init.php" ?>
-<html id="html">
+<html>
 
 <head>
 	<title>hello</title>
-	<link rel="stylesheet" href="/www/assets/css/root.css">
+	<link rel="stylesheet" href="/www/assets/css/index.css">
 </head>
 
-<body id="body">
+<body>
 	<div id="root">
 
-		<div id="container">
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-		</div>
+		<?php if (isset($_SESSION['username'])): ?>
+			<p>Logged in as <?php echo $_SESSION['username']; ?></p>
+		<?php endif; ?>
+
 
 	</div>
 

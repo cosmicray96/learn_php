@@ -1,4 +1,6 @@
 <?php
+ini_set('log_errors', 1);
+ini_set('error_log', '/tmp/php_debug.log');
 session_start();
 if (!isset($_SESSION['msgs'])) {
 	$_SESSION['msgs'] = [];

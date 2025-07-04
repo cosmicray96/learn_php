@@ -1,8 +1,8 @@
 <?php require_once "../../private/src/init.php";
-$db_address = "localhost";
-$db_username = 'web_user';
-$db_pass = 'webPASS32';
-$db_name = 'my_app_db';
+$db_address = $_ENV['mysql_address'];
+$db_username = $_ENV['mysql_username'];
+$db_password = $_ENV['mysql_password'];
+$db_name = $_ENV['mysql_db_name'];
 
 
 $username = $_POST['username'];
@@ -23,7 +23,7 @@ if (strlen($password) > 255) {
 $connection;
 try {
 
-	$connection = mysqli_connect($db_address, $db_username, $db_pass, $db_name);
+	$connection = mysqli_connect($db_address, $db_username, $db_password, $db_name);
 } catch (mysqli_sql_exception $e) {
 	$_SESSION['msgs'][] = 'could not connect to the database';
 	header('Location: /www/register.php');
