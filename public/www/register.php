@@ -3,7 +3,7 @@
 
 <head>
 	<title>Login</title>
-	<link rel="stylesheet" href="/www/assets/css/login.css">
+	<link rel="stylesheet" href="/www/assets/css/register.css">
 </head>
 
 <body>
@@ -21,10 +21,10 @@
 			<?php unset($_SESSION['msgs']); ?>
 		<?php endif; ?>
 
-		<form id="form" method="POST" action="/api/login.php">
+		<form id="form" method="POST" action="/api/register.php">
 			<label>Username: <input type="text" name="username" required></label>
 			<label>Password: <input type="test" name="password" required></label>
-			<button type="submit">Login!</button>
+			<button type="submit">Register!</button>
 
 		</form>
 

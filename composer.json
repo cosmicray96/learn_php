@@ -1,4 +1,6 @@
 {
     "name": "cosmicray/p06_php",
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
 }

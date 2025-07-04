@@ -1,3 +1,4 @@
 .nvim_project
-
 .env
+
+vendor/
