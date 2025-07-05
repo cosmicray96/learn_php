@@ -3,29 +3,20 @@
 
 <head>
 	<title>New Post</title>
-	<link rel="stylesheet" href="/www/assets/css/new_post.css">
+	<link rel="stylesheet" href="/www/assets/css/core.css">
+	<link rel="stylesheet" href="/www/assets/css/msgs_container.css">
+	<link rel="stylesheet" href="/www/assets/css/form.css">
 </head>
 
 <body>
 	<div id="root">
 
-		<?php if (isset($_SESSION['msgs'])): ?>
-			<div id="msgs_container">
-				<?php foreach ($_SESSION['msgs'] as $msg): ?>
-					<div class="msg">
-						<h4>Message from server: </h4>
-						<p><?php echo $msg; ?></p>
-					</div>
-				<?php endforeach; ?>
-			</div>
-			<?php unset($_SESSION['msgs']); ?>
-		<?php endif; ?>
+		<?php include __root_dir . '/private/components/msgs_container.php'; ?>
 
 		<?php if (!isset($_SESSION['username'])): ?>
 			<p>you need to <a href="/www/login.php">login</a> to post!</p>
 		<?php else: ?>
 			<p>Make a new post as <?php echo $_SESSION['username']; ?></p>
-
 
 			<form id="form" method="POST" action="/api/new_post.php">
 				<label>Title: <input type="text" name="title" required></label>

@@ -1,0 +1,7 @@
+#form {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(100, 200, 150, 1);
+}
