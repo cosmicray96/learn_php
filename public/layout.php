@@ -1,12 +1,13 @@
-<?php require_once "../../private/src/init.php" ?>
-<html id="html">
+<?php require_once "../private/src/init.php" ?>
+<html>
 
 <head>
 	<title>hello</title>
-	<link rel="stylesheet" href="/www/assets/css/layout.css">
+	<link rel="stylesheet" href="/assets/css/layout.css">
 </head>
 
-<body id="body">
+<body>
+	<!--
 	<div id="root">
 		<div id="nav_bar"></div>
 		<div id="main_container">
@@ -15,9 +16,9 @@
 			<div id="side_bar_right"></div>
 		</div>
 		<div id="footer"></div>
-
 	</div>
 
+	-->
 </body>
 
 <script>

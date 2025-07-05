@@ -11,12 +11,12 @@ $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 if (strlen($username) > 64) {
 	$_SESSION['msgs'][] = "username: $username, is longer than 64 characters.";
-	header('Location: /www/register.php');
+	header('Location: /register.php');
 	exit;
 }
 if (strlen($password) > 255) {
 	$_SESSION['msgs'][] = "password is longer than 255 characters.";
-	header('Location: /www/register.php');
+	header('Location: /register.php');
 	exit;
 }
 
@@ -26,7 +26,7 @@ try {
 	$connection = mysqli_connect($db_address, $db_username, $db_password, $db_name);
 } catch (mysqli_sql_exception $e) {
 	$_SESSION['msgs'][] = 'could not connect to the database';
-	header('Location: /www/register.php');
+	header('Location: /register.php');
 	exit;
 }
 $query = 'select 1 from users where username = ? limit 1';
@@ -36,7 +36,7 @@ mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
 
 if (mysqli_stmt_num_rows($stmt) > 0) {
-	header('Location: /www/register.php');
+	header('Location: /register.php');
 	mysqli_stmt_close($stmt);
 	mysqli_close($connection);
 	$_SESSION['msgs'][] = "user with username: $username, exists";
@@ -56,5 +56,5 @@ if (mysqli_stmt_execute($stmt1)) {
 mysqli_stmt_close($stmt1);
 
 mysqli_close($connection);
-header('Location: /www/register.php');
+header('Location: /register.php');
 exit;

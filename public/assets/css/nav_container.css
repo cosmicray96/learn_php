@@ -1,0 +1,45 @@
+#nav_container {
+	padding: 0;
+	margin: 0;
+	display: flex;
+	width: 100%;
+}
+
+#nav {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#nav_ul {
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: row;
+	border: 2px solid black;
+}
+
+.nav_item {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border: 2px solid black;
+}
+
+/*
+
+
+<div id="nav_container">
+	<nav id="nav">
+		<ul id="nav_ul">
+			<li class="nav_item"><a href="/login.php">Login</a></li>
+			<li class="nav_item"><a href="/register.php">Register</a></li>
+			<li class="nav_item"><a href="/new_post.php">New Post</a></li>
+			<li class="nav_item"><a href="/posts.php">Posts Post</a></li>
+		</ul>
+	</nav>
+
+</div>
+*/

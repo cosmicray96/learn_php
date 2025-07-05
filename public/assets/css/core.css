@@ -1,16 +1,11 @@
-html {
-	padding: 0;
-	margin: 0;
-}
-
-body {
+* {
+	font-size: inherit;
 	padding: 0;
 	margin: 0;
 }
 
 #root {
-	padding: 0;
-	margin: 0;
 	display: flex;
 	flex-direction: column;
+	font-size: 4vmin;
 }

@@ -8,5 +8,3 @@ if (!isset($_SESSION['msgs'])) {
 define('__root_dir', (__DIR__ . "/../.."));
 require_once __root_dir . '/vendor/autoload.php';
 Dotenv\Dotenv::createImmutable(__root_dir)->load();
-
-$s_webpage_address = "";

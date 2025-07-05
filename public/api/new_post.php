@@ -3,7 +3,7 @@ require_once "../../private/src/init.php";
 
 if (!isset($_SESSION['username'])) {
 	$_SESSION['msgs'][] = 'you need to login in order to post';
-	header('Location: /www/new_post.php');
+	header('Location: /new_post.php');
 	exit;
 }
 
@@ -17,7 +17,7 @@ $body = $_POST['body'];
 $username = $_SESSION['username'];
 if (strlen($title) > 255) {
 	$_SESSION['msgs'][] = 'titles cannot be longer than 255 characters';
-	header('Location: /www/new_post.php');
+	header('Location: /new_post.php');
 	exit;
 }
 
@@ -26,7 +26,7 @@ try {
 	$connection = mysqli_connect($db_address, $db_username, $db_password, $db_name);
 } catch (mysqli_sql_exception $e) {
 	$_SESSION['msgs'][] = 'could not connect to the database';
-	header('Location: /www/new_post.php');
+	header('Location: /new_post.php');
 	exit;
 }
 $user_id;
@@ -40,7 +40,7 @@ if (!mysqli_stmt_fetch($stmt)) {
 	$_SESSION['msgs'][] = "user $username, is not found";
 	mysqli_stmt_close($stmt);
 	mysqli_close($connection);
-	header('Location: /www/new_post.php');
+	header('Location: /new_post.php');
 	exit;
 }
 mysqli_stmt_close($stmt);
@@ -55,7 +55,7 @@ if (mysqli_stmt_execute($stmt1)) {
 } else {
 	$_SESSION['msgs'][] = 'error in submitting post!';
 }
-header('Location: /www/new_post.php');
+header('Location: /new_post.php');
 mysqli_stmt_close($stmt1);
 
 mysqli_close($connection);

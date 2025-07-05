@@ -1,22 +1,21 @@
-#html {
+* {
 	margin: 0;
 	padding: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: black;
 }
 
-#body {
-	margin: 0;
-	padding: 0;
+html {
+	width: 100vw;
+	height: 100dvh;
+	background-color: blue;
+}
+
+body {
 	width: 100%;
 	height: 100%;
-	background-color: black;
+	background-color: red;
 }
 
 #root {
-	margin: 0;
-	padding: 0;
 	width: 100%;
 	height: 100%;
 	background-color: aqua;
@@ -25,16 +24,12 @@
 }
 
 #nav_bar {
-	margin: 0;
-	padding: 0;
 	width: 100%;
 	height: 10%;
 	background-image: linear-gradient(red, blue);
 }
 
 #main_container {
-	margin: 0;
-	padding: 0;
 	width: 100%;
 	height: 80%;
 	background-image: linear-gradient(yellow, green);
@@ -43,32 +38,24 @@
 }
 
 #footer {
-	margin: 0;
-	padding: 0;
 	width: 100%;
 	height: 10%;
 	background-image: linear-gradient(yellow, blue);
 }
 
 #side_bar_left {
-	margin: 0;
-	padding: 0;
 	width: 15%;
 	height: 100%;
 	background-image: linear-gradient(to right, yellow, red);
 }
 
 #main_content {
-	margin: 0;
-	padding: 0;
 	width: 70%;
 	height: 100%;
 	background-image: linear-gradient(to right, blue, red);
 }
 
 #side_bar_right {
-	margin: 0;
-	padding: 0;
 	width: 15%;
 	height: 100%;
 
@@ -79,7 +66,7 @@
 	<div id="root">
 		<div id="nav_bar"></div>
 		<div id="side_bar_left"></div>
-		<div id="main_content"></div>
+	<div id="main_content"></div>
 		<div id="side_bar_right"></div>
 		<div id="footer"></div>
 

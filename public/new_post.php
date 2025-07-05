@@ -1,20 +1,22 @@
-<?php require_once "../../private/src/init.php" ?>
+<?php require_once "../private/src/init.php" ?>
 <html>
 
 <head>
 	<title>New Post</title>
-	<link rel="stylesheet" href="/www/assets/css/core.css">
-	<link rel="stylesheet" href="/www/assets/css/msgs_container.css">
-	<link rel="stylesheet" href="/www/assets/css/form.css">
+	<link rel="stylesheet" href="/assets/css/core.css">
+	<link rel="stylesheet" href="/assets/css/nav_container.css">
+	<link rel="stylesheet" href="/assets/css/msgs_container.css">
+	<link rel="stylesheet" href="/assets/css/form.css">
 </head>
 
 <body>
 	<div id="root">
 
+		<?php include __root_dir . '/private/components/nav_container.php'; ?>
 		<?php include __root_dir . '/private/components/msgs_container.php'; ?>
 
 		<?php if (!isset($_SESSION['username'])): ?>
-			<p>you need to <a href="/www/login.php">login</a> to post!</p>
+			<p>you need to <a href="/login.php">login</a> to post!</p>
 		<?php else: ?>
 			<p>Make a new post as <?php echo $_SESSION['username']; ?></p>
 
