@@ -15,7 +15,7 @@
 		<?php include __root_dir . '/private/components/nav_container.php'; ?>
 		<?php include __root_dir . '/private/components/msgs_container.php'; ?>
 
-		<form id="form" method="POST" action="/api/register.php">
+		<form id="form" method="POST" action="/handlers/register.php">
 			<label>Username: <input type="text" name="username" required></label>
 			<label>Password: <input type="test" name="password" required></label>
 			<button type="submit">Register!</button>
