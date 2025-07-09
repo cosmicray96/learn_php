@@ -1,28 +1,6 @@
-<?php require_once "../private/src/init.php" ?>
-<html>
+<?php
+require_once realpath(__DIR__ . '/../private/src/init.php');
+require_once realpath(__root_dir . '/private/controller/login.php');
 
-<head>
-	<title>Login</title>
-	<link rel="stylesheet" href="/assets/css/core.css">
-	<link rel="stylesheet" href="/assets/css/nav_container.css">
-	<link rel="stylesheet" href="/assets/css/msgs_container.css">
-	<link rel="stylesheet" href="/assets/css/form.css">
-</head>
-
-<body>
-	<div id="root">
-
-		<?php include __root_dir . '/private/components/nav_container.php'; ?>
-		<?php include __root_dir . '/private/components/msgs_container.php'; ?>
-
-
-		<form id="form" method="POST" action="/handlers/login.php">
-			<label>Username: <input type="text" name="username" required></label>
-			<label>Password: <input type="test" name="password" required></label>
-			<button type="submit">Login!</button>
-		</form>
-
-	</div>
-</body>
-
-</html>
+$controller = new LoginController();
+$controller->handle();
