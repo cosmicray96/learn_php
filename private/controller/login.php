@@ -1,21 +1,41 @@
 <?php
 require_once realpath(__DIR__ . '/../src/init.php');
 require_once realpath(__root_dir . '/private/model/search.php');
+require_once realpath(__root_dir . '/private/model/user.php');
 
 class LoginController
 {
-	public function handle()
+	private function handle_get()
 	{
+		$page_title = 'Login';
+		$content_file = realpath(__root_dir . '/private/view/login.php');
+		require realpath(__root_dir . '/private/layout/layout.php');
+	}
 
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			// This is a POST request
-		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			// This is a GET request
+	private function handle_post()
+	{
+		[$result, $user_id] = login_user($_POST['username'], $_POST['password']);
+		error_log("result = {$result->code->name}");
+		error_log("result = {$result->msg}");
+		if (!$result->is_success()) {
+			$_SESSION['msgs'][] = "failed to login, error: {$result->msg}";
+		} else {
+			$_SESSION['username'] = $_POST['username'];
+			$_SESSION['password_hash'] = $_POST['password_hash'];
+			$_SESSION['msgs'][] = 'Logged in!';
 		}
 
 		$page_title = 'Login';
 		$content_file = realpath(__root_dir . '/private/view/login.php');
 		require realpath(__root_dir . '/private/layout/layout.php');
+	}
+
+	public function handle()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$this->handle_post();
+		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			$this->handle_get();
+		}
 	}
 }
