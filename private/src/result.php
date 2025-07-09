@@ -4,6 +4,7 @@ enum ErrCode
 {
 	case OK;
 	case ERR;
+	case DB_ERR;
 }
 
 

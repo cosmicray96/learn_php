@@ -2,34 +2,93 @@
 require_once realpath(__root_dir . '/private/src/db.php');
 require_once realpath(__root_dir . '/private/src/result.php');
 
-function login_user($username, $password): array
+function user_id_from_name(string $username): array
 {
-	if (strlen($username) >= 64) {
-		return [new Result(ErrCode::ERR, 'username too long')];
+	try {
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('select 1 from users where username = ? limit 1');
+		$stmt->execute([$username]);
+		$result = $stmt->fetch();
+	} catch (PDOException $e) {
+		return ['res' => new Result(ErrCode::ERR, "problem with DB: {$e->getMessage()}")];
 	}
-	if (strlen($password) >= 255) {
-		return [new Result(ErrCode::ERR, 'password too long')];
+	if (!empty($result)) {
+		return ['res' => new Result(ErrCode::OK), 'data' => $result['id']];
+	} else {
+		return ['res' => new Result(ErrCode::ERR, 'user already exists')];
+	}
+}
+
+function verify_username(string $username): bool
+{
+	return (strlen($username) < 64);
+}
+function verify_password(string $password): bool
+{
+	return (strlen($password) < 255);
+}
+
+function login_user(string $username, string $password): array
+{
+	if (!verify_password($password)) {
+		return ['res' => new Result(ErrCode::ERR, 'invalid password')];
+	}
+	if (!verify_username($username)) {
+		return ['res' => new Result(ErrCode::ERR, 'invalid username')];
 	}
 
 	try {
 		$pdo = get_pdo();
 		$stmt = $pdo->prepare('select id, password_hash from users where username = ? limit 1');
-		$result = $stmt->execute([$username]);
-
-
+		$stmt->execute([$username]);
 		$result = $stmt->fetch();
 	} catch (PDOException $e) {
 
-		return [new Result(ErrCode::ERR, "problem with DB: {$e->getMessage()}")];
+		return ['res' => new Result(ErrCode::ERR, "problem with DB: {$e->getMessage()}")];
 	}
 
 	if (empty($result)) {
-		return [new Result(ErrCode::ERR, 'username not found')];
+		return ['res' => new Result(ErrCode::ERR, 'username not found')];
 	}
 
 	if (password_verify($password, $result['password_hash'])) {
-		return [new Result(ErrCode::OK, $result['id'])];
+		return ['res' => new Result(ErrCode::OK), 'data' => $result['id']];
 	} else {
-		return [new Result(ErrCode::ERR, 'wrong password')];
+		return ['res' => new Result(ErrCode::ERR, 'wrong password')];
 	}
+}
+
+
+function register_user(string $username, string $password): array
+{
+	if (!verify_password($password)) {
+		return ['res' => new Result(ErrCode::ERR, 'invalid password')];
+	}
+	if (!verify_username($username)) {
+		return ['res' => new Result(ErrCode::ERR, 'invalid username')];
+	}
+
+	$result = user_id_from_name($username);
+	if (!$result['res']->is_success()) {
+		if ($result['res']->code == ErrCode::DB_ERR) {
+			return $result;
+		}
+	} else {
+		return ['res' => new Result(ErrCode::ERR, 'username taken')];
+	}
+
+	try {
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('insert into users (username, password_hash) values (?, ?)');
+		$password_hash = password_hash($password, PASSWORD_DEFAULT);
+		$stmt->execute([$username, $password_hash]);
+	} catch (PDOException $e) {
+		return ['res' => new Result(ErrCode::ERR, "problem with DB: {$e->getMessage()}")];
+	}
+
+	$result = user_id_from_name($username);
+	if ($result['res']->is_success()) {
+		return $result;
+	}
+	return ['res' => new Result(ErrCode::ERR, 'problem with DB.')];
 }

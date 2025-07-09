@@ -14,13 +14,12 @@ class LoginController
 
 	private function handle_post()
 	{
-		[$result, $user_id] = login_user($_POST['username'], $_POST['password']);
-		error_log("result = {$result->code->name}");
-		error_log("result = {$result->msg}");
-		if (!$result->is_success()) {
-			$_SESSION['msgs'][] = "failed to login, error: {$result->msg}";
+		$result = login_user($_POST['username'], $_POST['password']);
+		if (!$result['res']->is_success()) {
+			$_SESSION['msgs'][] = "failed to login, error: {$result['res']->msg}";
 		} else {
 			$_SESSION['username'] = $_POST['username'];
+			$_SESSION['user_id'] = $result['data'];
 			$_SESSION['password_hash'] = $_POST['password_hash'];
 			$_SESSION['msgs'][] = 'Logged in!';
 		}
