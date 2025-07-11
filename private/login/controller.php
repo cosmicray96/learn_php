@@ -1,15 +1,15 @@
 <?php
-require_once realpath(__DIR__ . '/../src/init.php');
-require_once realpath(__root_dir . '/private/model/search.php');
-require_once realpath(__root_dir . '/private/model/user.php');
+require_once realpath(__DIR__ . '/../_common/src/init.php');
+require_once realpath(__root_dir . '/private/search/model.php');
+require_once realpath(__root_dir . '/private/user/model.php');
 
 class LoginController
 {
 	private function handle_get()
 	{
 		$page_title = 'Login';
-		$content_file = realpath(__root_dir . '/private/view/login.php');
-		require realpath(__root_dir . '/private/layout/layout.php');
+		$content_file = realpath(__root_dir . '/private/login/view.php');
+		require realpath(__root_dir . '/private/_common/view/layout.php');
 	}
 
 	private function handle_post()
@@ -25,8 +25,8 @@ class LoginController
 		}
 
 		$page_title = 'Login';
-		$content_file = realpath(__root_dir . '/private/view/login.php');
-		require realpath(__root_dir . '/private/layout/layout.php');
+		$content_file = realpath(__root_dir . '/private/login/view.php');
+		require realpath(__root_dir . '/private/_common/view/layout.php');
 	}
 
 	public function handle()

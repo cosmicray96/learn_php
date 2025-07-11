@@ -1,6 +1,15 @@
 <?php
-require_once 'init.php';
 
+function get_posts_2()
+{
+	$posts = [
+		'title1' => 'body1 body1 body1 body1 body1',
+		'title2' => 'body2 body2 body2 body2 body2',
+		'title3' => 'body3 body3 body3 body3 body3',
+		'title4' => 'body4 body4 body4 body4 body4',
+	];
+	return $posts;
+}
 function get_posts()
 {
 	$is_connection = false;

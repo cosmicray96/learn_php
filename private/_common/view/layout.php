@@ -1,4 +1,4 @@
-<?php require_once "../private/src/init.php" ?>
+<?php require_once realpath(__DIR__ . '/../src/init.php') ?>
 <html>
 
 <head>
@@ -12,13 +12,13 @@
 
 <body>
 	<div id="root">
-		<?php require __root_dir . '/private/view/nav_container.php'; ?>
-		<?php require __root_dir . '/private/view/msgs_container.php'; ?>
+		<?php require __root_dir . '/private/_common/view/nav_container.php'; ?>
+		<?php require __root_dir . '/private/_common/view/msgs_container.php'; ?>
 
 
 		<?php require $content_file; ?>
 
-		<?php require __root_dir . '/private/view/foot_container.php'; ?>
+		<?php require __root_dir . '/private/_common/view/foot_container.php'; ?>
 	</div>
 
 </body>
