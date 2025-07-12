@@ -62,29 +62,35 @@ class Result
 	}
 }
 
-function ErrCode_to_string(ErrCode $err)
+function ErrCode_to_string(ErrCode $err): string
 {
 	switch ($err) {
 		case ErrCode::Ok:
 			return 'No Error';
 			break;
 		case ErrCode::Err:
-
+			return 'Generic Error';
+			break;
 		case ErrCode::DB_CannotConnect:
+			return 'Could not connect to the database';
 			break;
 		case ErrCode::DB_NotFound:
+			return 'Requested value not found in database';
 			break;
 		case ErrCode::DB_BadQuery:
+			return 'Query sent to database was invalid';
 			break;
-
 		case ErrCode::Auth_InvalidUsername:
+			return 'Provided username was invalid';
 			break;
 		case ErrCode::Auth_InvalidPassword:
+			return 'Provided password was invalid';
 			break;
 		case ErrCode::Auth_WrongPassword:
-
+			return 'Provided password was incorrect';
 			break;
 		case ErrCode::Auth_NameTaken:
+			return 'Provided name was already taken';
 			break;
 		default:
 			return "ErrCode::{$err->name} not recognized";

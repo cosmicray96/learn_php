@@ -3,6 +3,38 @@ require_once realpath(__DIR__ . '/../src/init.php');
 require_once realpath(__root_dir . '/private/_common/model/db.php');
 require_once realpath(__root_dir . '/private/_common/src/result.php');
 
+function get_user(int $user_id): Result
+{
+	$result = user_exists($user_id);
+	if ($result->is_err()) {
+		return $result;
+	}
+	try {
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('select * from users where id = ? limit 1');
+		$stmt->execute([$user_id]);
+		return Result::make_ok($stmt->fetch());
+	} catch (PDOException $e) {
+		return Result::make_err(ErrCode::Err, $e);
+	}
+}
+
+function user_exists(int $user_id): Result
+{
+	try {
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('select 1 from users where id = ? limit 1');
+		$stmt->execute([$user_id]);
+		$result = $stmt->fetch();
+	} catch (PDOException $e) {
+		return Result::make_err(ErrCode::Err, $e);
+	}
+	if ($result === false) {
+		return Result::make_err(ErrCode::DB_NotFound);
+	}
+	return Result::make_ok(true);
+}
+
 // returns int
 function user_id_from_name(string $username): Result
 {
@@ -89,5 +121,5 @@ function register_user(string $username, string $password): Result
 	if ($result->is_err()) {
 		return Result::make_err(ErrCode::Err);
 	}
-	return Result::make_ok($result['id']);
+	return Result::make_ok($result->value);
 }

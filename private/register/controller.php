@@ -9,12 +9,15 @@ class RegisterController
 	{
 
 		$result = register_user($_POST['username'], $_POST['password']);
-		if (!$result['res']->is_success()) {
-			$_SESSION['msgs'][] = "failed to register, error: {$result['res']->msg}";
+		if ($result->is_err()) {
+			$err  = ErrCode_to_string($result->err);
+			$_SESSION['msgs'][] = "failed to Register: $err";
 		} else {
+
 			$_SESSION['username'] = $_POST['username'];
-			$_SESSION['user_id'] = $result['data'];
-			$_SESSION['msgs'][] = 'registered';
+			$_SESSION['user_id'] = $result->value;
+			$_SESSION['password_hash'] = $_POST['password_hash'];
+			$_SESSION['msgs'][] = 'Registered!';
 		}
 
 		$page_title = 'Register';

@@ -1,25 +1,6 @@
 <?php
-
 require_once realpath(__DIR__ . '/../private/_common/src/init.php');
 require_once realpath(__root_dir . '/private/users/controller.php');
-?>
-<html>
 
-<head>
-	<title>Users</title>
-	<link rel="stylesheet" href="/assets/css/core.css">
-	<link rel="stylesheet" href="/assets/css/nav_container.css">
-	<link rel="stylesheet" href="/assets/css/msgs_container.css">
-</head>
-
-<body>
-	<div id="root">
-
-		<?php require __root_dir . '/private/components/nav_container.php'; ?>
-		<?php require __root_dir . '/private/components/msgs_container.php'; ?>
-
-
-	</div>
-</body>
-
-</html>
+$controller = new UsersController();
+$controller->handle();

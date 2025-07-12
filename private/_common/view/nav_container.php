@@ -7,6 +7,7 @@
 			<li class="nav_item"><a href="/new_post.php">New Post</a></li>
 			<li class="nav_item"><a href="/posts.php">Posts</a></li>
 			<li class="nav_item"><a href="/search.php">Search</a></li>
+			<li class="nav_item"><a href="/users.php">Users</a></li>
 			<li class="nav_item"><a href="/layout.php">Layout</a></li>
 		</ul>
 	</nav>

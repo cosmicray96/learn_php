@@ -1,5 +1,6 @@
 <?php if (isset($username)) : ?>
-	<p>username: <?php echo $username; ?></p>
+	<p>Username: <?php echo $username; ?></p>
+	<p>Description: <?php echo $description; ?></p>
 <?php else: ?>
-	<p>you are not logged it! <a href="/login.php">Login</a></p>
+	<p>No user_id provided</p>
 <?php endif; ?>
