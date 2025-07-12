@@ -1,4 +1,6 @@
 <?php
+require_once realpath(__DIR__ . '/../_common/src/init.php');
+
 function search_users($search_query)
 {
 	return null;

@@ -52,6 +52,23 @@ function user_id_from_name(string $username): Result
 	return Result::make_ok($result['id']);
 }
 
+//returns string
+function username_from_id(int $user_id): Result
+{
+	try {
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('select username from users where id = ? limit 1');
+		$stmt->execute([$user_id]);
+		$result = $stmt->fetch();
+	} catch (PDOException $e) {
+		return Result::make_err(ErrCode::Err, $e);
+	}
+	if ($result === false) {
+		return Result::make_err(ErrCode::DB_NotFound);
+	}
+	return Result::make_ok($result['username']);
+}
+
 function verify_username(string $username): bool
 {
 	return (strlen($username) < 64);
