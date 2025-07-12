@@ -3,7 +3,7 @@ require_once realpath(__DIR__ . '/../src/init.php');
 require_once realpath(__root_dir . '/private/_common/model/db.php');
 require_once realpath(__root_dir . '/private/_common/src/result.php');
 
-// Result = [value => user_id, err => string]
+// returns int
 function user_id_from_name(string $username): Result
 {
 	try {
@@ -29,6 +29,7 @@ function verify_password(string $password): bool
 	return (strlen($password) < 255);
 }
 
+// returns int
 function login_user(string $username, string $password): Result
 {
 	if (!verify_password($password)) {
@@ -57,23 +58,22 @@ function login_user(string $username, string $password): Result
 	return Result::make_ok($result['id']);
 }
 
-
-function register_user(string $username, string $password): array
+// returns int
+function register_user(string $username, string $password): Result
 {
 	if (!verify_password($password)) {
-		return ['res' => new Result(ErrCode::ERR, 'invalid password')];
+		return Result::make_err(ErrCode::Auth_InvalidPassword);
 	}
 	if (!verify_username($username)) {
-		return ['res' => new Result(ErrCode::ERR, 'invalid username')];
+		return Result::make_err(ErrCode::Auth_InvalidUsername);
 	}
 
 	$result = user_id_from_name($username);
-	if (!$result['res']->is_success()) {
-		if ($result['res']->code == ErrCode::DB_ERR) {
-			return $result;
-		}
-	} else {
-		return ['res' => new Result(ErrCode::ERR, 'username taken')];
+	if ($result->is_ok()) {
+		return Result::make_err(ErrCode::Auth_NameTaken);
+	}
+	if ($result->err !== ErrCode::DB_NotFound) {
+		return $result;
 	}
 
 	try {
@@ -82,12 +82,12 @@ function register_user(string $username, string $password): array
 		$password_hash = password_hash($password, PASSWORD_DEFAULT);
 		$stmt->execute([$username, $password_hash]);
 	} catch (PDOException $e) {
-		return ['res' => new Result(ErrCode::ERR, "problem with DB: {$e->getMessage()}")];
+		return Result::make_err(ErrCode::Err, $e);
 	}
 
 	$result = user_id_from_name($username);
-	if ($result['res']->is_success()) {
-		return $result;
+	if ($result->is_err()) {
+		return Result::make_err(ErrCode::Err);
 	}
-	return ['res' => new Result(ErrCode::ERR, 'problem with DB.')];
+	return Result::make_ok($result['id']);
 }

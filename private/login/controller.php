@@ -14,6 +14,7 @@ class LoginController
 	private function handle_post()
 	{
 		$result = login_user($_POST['username'], $_POST['password']);
+
 		if (!$result['res']->is_success()) {
 			$_SESSION['msgs'][] = "failed to login, error: {$result['res']->msg}";
 		} else {
