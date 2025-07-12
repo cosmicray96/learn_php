@@ -1,22 +1,6 @@
-<?php require_once "../private/src/init.php";
-?>
-<html>
+<?php
+require_once realpath(__DIR__ . '/../private/_common/src/init.php');
+require_once realpath(__root_dir . '/private/posts/controller.php');
 
-<head>
-	<title>Posts</title>
-	<link rel="stylesheet" href="/assets/css/core.css">
-	<link rel="stylesheet" href="/assets/css/nav_container.css">
-	<link rel="stylesheet" href="/assets/css/msgs_container.css">
-	<link rel="stylesheet" href="/assets/css/posts.css">
-</head>
-
-<body>
-	<div id="root">
-		<?php include __root_dir . '/private/components/nav_container.php'; ?>
-		<?php include __root_dir . '/private/components/msgs_container.php'; ?>
-
-
-	</div>
-</body>
-
-</html>
+$controller = new PostsController();
+$controller->handle();

@@ -1,6 +1,6 @@
 <?php
 require_once realpath(__DIR__ . '/../_common/src/init.php');
-require realpath(__root_dir . '/private/_common/src/get_posts.php');
+require realpath(__root_dir . '/private/_common/model/get_posts.php');
 
 class PostsController
 {
@@ -9,7 +9,7 @@ class PostsController
 		$posts = get_posts();
 
 		$page_title = 'Posts';
-		$content_file = realpath(__root_dir . '/private/posts/view.php');
+		$content_file = realpath(__DIR__ . '/view.php');
 		require realpath(__root_dir . '/private/_common/view/layout.php');
 	}
 }

@@ -1,7 +1,7 @@
 <?php
-require_once realpath(__DIR__ . '/../src/init.php');
-require_once realpath(__root_dir . '/private/model/search.php');
-require_once realpath(__root_dir . '/private/model/user.php');
+require_once realpath(__DIR__ . '/../_common/src/init.php');
+require_once realpath(__root_dir . '/private/_common/src/result.php');
+require_once realpath(__root_dir . '/private/_common/model/users.php');
 
 class RegisterController
 {
@@ -18,15 +18,17 @@ class RegisterController
 		}
 
 		$page_title = 'Register';
-		$content_file = realpath(__root_dir . '/private/view/register.php');
-		require realpath(__root_dir . '/private/layout/layout.php');
+		$content_file = realpath(__DIR__ . '/view.php');
+		require realpath(__root_dir . '/private/_common/view/layout.php');
 	}
+
 	private function handle_get()
 	{
 		$page_title = 'Register';
-		$content_file = realpath(__root_dir . '/private/view/register.php');
-		require realpath(__root_dir . '/private/layout/layout.php');
+		$content_file = realpath(__DIR__ . '/view.php');
+		require realpath(__root_dir . '/private/_common/view/layout.php');
 	}
+
 	public function handle()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {

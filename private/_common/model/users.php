@@ -1,6 +1,6 @@
 <?php require_once realpath(__DIR__ . '/../src/init.php');
-require_once realpath(__root_dir . '/private/src/db.php');
-require_once realpath(__root_dir . '/private/src/result.php');
+require_once realpath(__root_dir . '/private/_common/model/db.php');
+require_once realpath(__root_dir . '/private/_common/src/result.php');
 
 function user_id_from_name(string $username): array
 {
