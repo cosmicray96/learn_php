@@ -2,46 +2,60 @@
 
 enum ErrCode
 {
-	case OK;
-	case ERR;
-	case DB_ERR;
-}
+	case Ok;
+	case Err;
 
+	case DB_CannotConnect;
+	case DB_NotFound;
+	case DB_BadQuery;
+
+	case Auth_InvalidUsername;
+	case Auth_InvalidPassword;
+	case Auth_WrongPassword;
+}
 
 class Result
 {
-	public ErrCode $code;
-	public ?string $msg;
+	public readonly ErrCode $err;
+	public readonly ?mixed $value;
 
-	public function __construct(ErrCode $code, ?string $msg = null)
+	//--- Special Functions ---//
+
+	public function __construct(ErrCode $err, ?mixed $value = null)
 	{
-		$this->code = $code;
-		$this->msg = $msg;
+		$this->err = $err;
+		$this->value = $value;
 	}
 
-	public function is_success(): bool
-	{
-		return $this->code == ErrCode::OK;
-	}
-}
-class NewResult
-{
-	public $err;
-	public $value;
-	private bool $is_error;
+	//--- Functions ---//
 
-	public function __construct($value, bool $is_error)
+	public function is_ok(): bool
 	{
-		$this->is_error = $is_error;
-		if ($this->is_error) {
-			$this->err = $value;
-		} else {
-			$this->value = $value;
+		return $this->err === ErrCode::Ok;
+	}
+
+	public function is_err(): bool
+	{
+		return !$this->is_ok();
+	}
+
+	public function unwrap(): mixed
+	{
+		if ($this->err !== ErrCode::Ok) {
+			throw new RuntimeException("Tried to unwrap Result but it is {$this->err->name}");
 		}
+		return $this->value;
 	}
 
-	public function has_err(): bool
+	//--- Static ---//
+
+	public static function make_ok(mixed $value): self
 	{
-		return $this->is_error;
+		return new self(ErrCode::Ok, $value);
+	}
+
+	public static function make_err(ErrCode $err, ?mixed $value = null): self
+	{
+		return new self($err, $value);
 	}
 }

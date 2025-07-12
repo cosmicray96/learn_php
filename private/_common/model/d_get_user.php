@@ -1,5 +1,5 @@
 <?php
-require_once 'init.php';
+require_once realpath(__DIR__ . '/../src/init.php');
 
 function get_username_from_id($user_id)
 {

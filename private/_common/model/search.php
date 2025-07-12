@@ -1,4 +1,6 @@
 <?php
+require_once realpath(__DIR__ . '/../src/init.php');
+
 function search_users($search_query) {}
 function search_posts($search_query)
 {
