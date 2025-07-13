@@ -1,6 +1,6 @@
 <?php
 require_once realpath(__DIR__ . '/../_common/src/init.php');
-require_once realpath(__root_dir . '/private/search/model.php');
+require_once realpath(__DIR__ . '/model.php');
 
 class SearchController
 {
@@ -16,19 +16,22 @@ class SearchController
 		if (!isset($_GET['query']) || !isset($_GET['type'])) {
 			return;
 		}
-		error_log("here! Here!");
 
 		$query = trim($_GET['query']);
 		$type = $_GET['type'];
 
-		try {
-			if ($type === 'post') {
-				$this->vars['search_results_posts'] = search_posts($query);
-			} elseif ($type === 'user') {
-				throw new RuntimeException('What?');
+		if ($type === 'post') {
+			$result = search_posts($query);
+			if ($result->is_ok()) {
+				$this->vars['search_results_posts'] = $result->unwrap();
 			}
-		} catch (mysqli_sql_exception $e) {
-			$_SESSION['msgs'][] = "Database Error: $e";
+		} elseif ($type === 'user') {
+			$result = search_users($query);
+			if ($result->is_ok()) {
+				$this->vars['search_results_users'] = $result->unwrap();
+			}
+		} else {
+			$_SESSION['msgs'][] = 'type should be post or user';
 		}
 	}
 

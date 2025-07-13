@@ -1,5 +1,7 @@
 <?php
 require_once realpath(__DIR__ . '/../_common/src/init.php');
+
+require_once realpath(__root_dir . '/private/_common/model/posts.php');
 require_once realpath(__DIR__ . '/model.php');
 
 class PostsController
@@ -12,8 +14,15 @@ class PostsController
 	{
 		$this->title = 'Posts';
 		$this->view_file = realpath(__DIR__ . '/view.php');
-		if (isset($_GET['post_id'])) {
-			throw new RuntimeException('What?');
+		if (isset($_GET['id'])) {
+			error_log("alfjdnxi");
+			$result = get_post($_GET['id']);
+			if ($result->is_ok()) {
+				$this->vars['post'] = $result->unwrap();
+			} else {
+				$err = ErrCode_to_string($result->err);
+				$_SESSION['msgs'][] = "Error: $err";
+			}
 			return;
 		}
 		$result = latest_posts(5);

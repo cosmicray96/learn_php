@@ -1,53 +1,32 @@
 <?php
 require_once realpath(__DIR__ . '/../_common/src/init.php');
+require_once realpath(__root_dir . '/private/_common/src/result.php');
+require_once realpath(__root_dir . '/private/_common/model/db.php');
+require_once realpath(__root_dir . '/private/_common/model/search.php');
 
-function search_users($search_query)
+function search_users($search_query): Result
 {
-	return null;
-}
-function search_posts($search_query)
-{
-	$db_address = $_ENV['mysql_address'];
-	$db_username = $_ENV['mysql_username'];
-	$db_password = $_ENV['mysql_password'];
-	$db_name = $_ENV['mysql_db_name'];
-	$is_connection = false;
-	$is_stmt = false;
-
-
 	try {
-		$connection = mysqli_connect($db_address, $db_username, $db_password, $db_name);
-		$is_connection = true;
-		$query = 'select * from(select title, body, user_id, levenshtein(lower(title), lower(?)) as dist from posts ) as sub where dist <= 3 order by dist asc limit 10';
-		$stmt = mysqli_prepare($connection, $query);
-		$is_stmt = true;
-		mysqli_stmt_bind_param($stmt, 's', $search_query);
-		mysqli_stmt_execute($stmt);
-
-		mysqli_stmt_bind_result($stmt, $title, $body, $user_id, $dist);
-
-		while (mysqli_stmt_fetch($stmt)) {
-			error_log("error: $title");
-			$search_results[] = [
-				'title' => $title,
-				'body' => $body,
-				'user_id' => $user_id,
-			];
-		}
-	} catch (mysqli_sql_exception $e) {
-		if ($is_stmt) {
-			mysqli_stmt_close($stmt);
-		}
-		if ($is_connection) {
-			mysqli_close($connection);
-		}
-		throw $e;
-		$_SESSION['msgs'][] = "Database Error: $e";
-		header('Location: /search.php');
-		exit;
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('select * from(select id, username, created_at, levenshtein(lower(username), lower(?)) as dist from users ) as sub where dist <= 3 order by dist asc limit 10');
+		$stmt->execute([$search_query]);
+		$result = $stmt->fetchAll();
+		return Result::make_ok($result);
+	} catch (PDOException $e) {
+		return Result::make_err(ErrCode::Err, $e);
 	}
+}
 
-	mysqli_stmt_close($stmt);
-	mysqli_close($connection);
-	return $search_results;
+function search_posts($search_query): Result
+{
+	try {
+		$pdo = get_pdo();
+		$stmt = $pdo->prepare('select * from(select title, body, user_id, levenshtein(lower(title), lower(?)) as dist from posts ) as sub where dist <= 3 order by dist asc limit 10');
+		$stmt->execute([$search_query]);
+		$result = $stmt->fetchAll();
+		add_username_to_posts($result);
+		return Result::make_ok($result);
+	} catch (PDOException $e) {
+		return Result::make_err(ErrCode::Err, $e);
+	}
 }

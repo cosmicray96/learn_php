@@ -1,16 +1,14 @@
-<?php if (isset($post_id)): ?>
-	<p>Should be post here</p>
+<?php require_once realpath(__DIR__ . '/../_common/src/init.php'); ?>
+
+<?php if (isset($post)): ?>
+	<div class="post">
+		<h2>Title: <?php echo $post['title']; ?></h2>
+		<p>Made By: <?php echo $post['username']; ?></p>
+		<p>Created At: <?php echo $post['created_at']; ?></p>
+		<p>Body: <?php echo $post['body']; ?></p>
+	</div>
 <?php elseif (isset($posts)): ?>
 
-	<div id="posts_container">
-		<?php foreach ($posts as $post): ?>
-			<div class="post">
-				<h2>Title: <?php echo $post['title']; ?></h2>
-				<p>Made By: <?php echo $post['username']; ?></p>
-				<p>Created At: <?php echo $post['created_at']; ?></p>
-				<p>Body: <?php echo $post['body']; ?></p>
-			</div>
-		<?php endforeach; ?>
-	</div>
+	<?php require realpath(__root_dir . '/private/_common/view/posts_container.php'); ?>
 
 <?php endif; ?>

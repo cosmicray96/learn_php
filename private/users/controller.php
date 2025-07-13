@@ -19,8 +19,7 @@ class UsersController
 		if (isset($_GET['user_id'])) {
 			$result = get_user($_GET['user_id']);
 			if ($result->is_ok()) {
-				$this->vars['username'] = $result->unwrap()['username'];
-				$this->vars['description'] = $result->unwrap()['description'];
+				$this->vars['user'] = $result->unwrap();
 			} else {
 				$err = ErrCode_to_string($result->err);
 				$_SESSION['msgs'][] = "Error: $err";
