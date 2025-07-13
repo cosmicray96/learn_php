@@ -1,31 +1,42 @@
 <?php
 require_once realpath(__DIR__ . '/../_common/src/init.php');
-
 require_once realpath(__DIR__ . '/model.php');
 
 class PostsController
 {
-	public function handle_get()
-	{
-		if (isset($_GET['post_id'])) {
-		} else {
-			$result = latest_posts(5);
-			if ($result->is_ok()) {
-				$posts = $result->value;
-			}
-		}
+	private $view_file = null;
+	private $title = null;
+	private $vars = [];
 
-		$page_title = 'Posts';
-		$content_file = realpath(__DIR__ . '/view.php');
+	private function handle_get()
+	{
+		$this->title = 'Posts';
+		$this->view_file = realpath(__DIR__ . '/view.php');
+		if (isset($_GET['post_id'])) {
+			throw new RuntimeException('What?');
+			return;
+		}
+		$result = latest_posts(5);
+		if ($result->is_ok()) {
+			$this->vars['posts'] = $result->unwrap();
+		}
+	}
+
+	private function render()
+	{
+		$page_title = $this->title;
+		$content_file = $this->view_file;
+		extract($this->vars);
 		require realpath(__root_dir . '/private/_common/view/layout.php');
 	}
 
 	public function handle()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			throw new RuntimeException("no post on users");
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
 			$this->handle_get();
 		}
+
+		$this->render();
 	}
 }
