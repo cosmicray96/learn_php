@@ -1,6 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../_common/src/init.php');
-
 require_once realpath(__root_dir . '/private/_common/model/posts.php');
 require_once realpath(__DIR__ . '/model.php');
 

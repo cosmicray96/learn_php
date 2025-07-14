@@ -1,5 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../_common/src/init.php');
 require_once realpath(__DIR__ . '/model.php');
 
 class SearchController

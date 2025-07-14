@@ -1,6 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../_common/src/init.php');
-
 class IndexController
 {
 	private $view_file = null;

@@ -4,6 +4,7 @@ enum ErrCode
 {
 	case Ok;
 	case Err;
+	case Exception;
 
 	case DB_CannotConnect;
 	case DB_NotFound;
@@ -18,8 +19,8 @@ enum ErrCode
 
 class Result
 {
-	public readonly ErrCode $err;
-	public readonly mixed $value;
+	private readonly ErrCode $err;
+	private readonly mixed $value;
 
 	//--- Special Functions ---//
 
@@ -41,10 +42,26 @@ class Result
 		return !$this->is_ok();
 	}
 
-	public function unwrap(): mixed
+	public function error(): ErrCode
+	{
+		if ($this->err === ErrCode::Ok) {
+			throw new RuntimeException("Tried to get error from Result but it is not");
+		}
+		return $this->err;
+	}
+
+	public function value(): mixed
 	{
 		if ($this->err !== ErrCode::Ok) {
-			throw new RuntimeException("Tried to unwrap Result but it is {$this->err->name}");
+			throw new RuntimeException("Tried to get value from Result but it is error({$this->err->name})");
+		}
+		return $this->value;
+	}
+
+	public function exception(): mixed
+	{
+		if ($this->err !== ErrCode::Exception) {
+			throw new RuntimeException("Tried to get Exception from Result but it is not");
 		}
 		return $this->value;
 	}
@@ -59,6 +76,11 @@ class Result
 	public static function make_err(ErrCode $err, mixed $value = null): self
 	{
 		return new self($err, $value);
+	}
+
+	public static function make_exception(Throwable $e): self
+	{
+		return new self(ErrCode::Exception, $e);
 	}
 }
 

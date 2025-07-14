@@ -1,5 +1,3 @@
-<?php require_once realpath(__DIR__ . '/../_common/src/init.php'); ?>
-
 <?php if (isset($post)): ?>
 	<div class="post">
 		<h2>Title: <?php echo $post['title']; ?></h2>

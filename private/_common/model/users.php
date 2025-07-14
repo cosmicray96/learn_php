@@ -1,5 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../src/init.php');
 require_once realpath(__root_dir . '/private/_common/model/db.php');
 require_once realpath(__root_dir . '/private/_common/src/result.php');
 
@@ -15,7 +14,7 @@ function get_user(int $user_id): Result
 		$stmt->execute([$user_id]);
 		return Result::make_ok($stmt->fetch());
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 }
 
@@ -27,7 +26,7 @@ function user_exists(int $user_id): Result
 		$stmt->execute([$user_id]);
 		$result = $stmt->fetch();
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 	if ($result === false) {
 		return Result::make_err(ErrCode::DB_NotFound);
@@ -44,7 +43,7 @@ function user_id_from_name(string $username): Result
 		$stmt->execute([$username]);
 		$result = $stmt->fetch();
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 	if ($result === false) {
 		return Result::make_err(ErrCode::DB_NotFound);
@@ -61,7 +60,7 @@ function username_from_id(int $user_id): Result
 		$stmt->execute([$user_id]);
 		$result = $stmt->fetch();
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 	if ($result === false) {
 		return Result::make_err(ErrCode::DB_NotFound);
@@ -94,7 +93,7 @@ function login_user(string $username, string $password): Result
 		$stmt->execute([$username]);
 		$result = $stmt->fetch();
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 
 	if ($result === false) {
@@ -121,7 +120,7 @@ function register_user(string $username, string $password): Result
 	if ($result->is_ok()) {
 		return Result::make_err(ErrCode::Auth_NameTaken);
 	}
-	if ($result->err !== ErrCode::DB_NotFound) {
+	if ($result->error() !== ErrCode::DB_NotFound) {
 		return $result;
 	}
 
@@ -131,12 +130,12 @@ function register_user(string $username, string $password): Result
 		$password_hash = password_hash($password, PASSWORD_DEFAULT);
 		$stmt->execute([$username, $password_hash]);
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 
 	$result = user_id_from_name($username);
 	if ($result->is_err()) {
 		return Result::make_err(ErrCode::Err);
 	}
-	return Result::make_ok($result->value);
+	return Result::make_ok($result->value());
 }

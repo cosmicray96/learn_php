@@ -1,5 +1,3 @@
-<?php require_once realpath(__DIR__ . '/../_common/src/init.php'); ?>
-
 <?php if (isset($user)) : ?>
 	<p>Username: <?php echo $user['username']; ?></p>
 	<p>Id: <?php echo $user['id']; ?></p>

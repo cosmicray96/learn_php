@@ -1,5 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../src/init.php');
 require_once realpath(__root_dir . '/private/_common/model/db.php');
 require_once realpath(__root_dir . '/private/_common/src/result.php');
 
@@ -15,7 +14,7 @@ function get_post(int $post_id): Result
 			return Result::make_err(ErrCode::DB_NotFound);
 		}
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_exception($e);
 	}
 	return Result::make_ok($result);
 }

@@ -1,5 +1,3 @@
-<?php require_once realpath(__DIR__ . '/../_common/src/init.php'); ?>
-
 <form id="form" method="GET" action="/search">
 	<label>Search: <input type="text" name="query"></label>
 	<label>Type: <input type="radio" name="type" value="user">User</label>

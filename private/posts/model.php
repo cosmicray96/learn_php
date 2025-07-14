@@ -1,6 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../_common/src/init.php');
-
 require_once realpath(__root_dir . '/private/_common/src/result.php');
 
 require_once realpath(__root_dir . '/private/_common/model/db.php');
@@ -20,6 +18,6 @@ function latest_posts(int $count): Result
 		add_username_to_posts($result);
 		return Result::make_ok($result);
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_err(ErrCode::Exception, $e);
 	}
 }

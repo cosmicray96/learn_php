@@ -21,8 +21,5 @@ try {
 	}
 } catch (Throwable $e) {
 	http_response_code(500);
-	echo "<h1>500 Internal Server Error</h1>";
-	echo "<p><strong>" . get_class($e) . ": </strong>";
-	echo $e->getMessage() . "</p>";
-	echo "<p><strong>Stack Trace: </strong>" . $e->getTraceAsString() . "</p>";
+	require __DIR__ . '../private/_common/view/exception_container.php';
 }

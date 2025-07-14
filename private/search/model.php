@@ -1,5 +1,4 @@
 <?php
-require_once realpath(__DIR__ . '/../_common/src/init.php');
 require_once realpath(__root_dir . '/private/_common/src/result.php');
 require_once realpath(__root_dir . '/private/_common/model/db.php');
 require_once realpath(__root_dir . '/private/_common/model/search.php');
@@ -13,7 +12,7 @@ function search_users($search_query): Result
 		$result = $stmt->fetchAll();
 		return Result::make_ok($result);
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_err(ErrCode::Exception, $e);
 	}
 }
 
@@ -27,6 +26,6 @@ function search_posts($search_query): Result
 		add_username_to_posts($result);
 		return Result::make_ok($result);
 	} catch (PDOException $e) {
-		return Result::make_err(ErrCode::Err, $e);
+		return Result::make_err(ErrCode::Exception, $e);
 	}
 }
