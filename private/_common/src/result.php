@@ -68,7 +68,7 @@ class Result
 
 	//--- Static ---//
 
-	public static function make_ok(mixed $value): self
+	public static function make_ok(mixed $value = null): self
 	{
 		return new self(ErrCode::Ok, $value);
 	}

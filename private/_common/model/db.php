@@ -22,5 +22,6 @@ function get_pdo(): PDO
 	];
 
 	$pdo = new PDO($dsn, $db_username, $db_password, $options);
+	$pdo->beginTransaction();
 	return $pdo;
 }

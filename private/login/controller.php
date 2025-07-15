@@ -1,53 +1,45 @@
 <?php
 require_once realpath(__root_dir . '/private/_common/model/users.php');
 
+require_once realpath(__root_dir . '/private/_common/src/result.php');
+require_once realpath(__root_dir . '/private/_common/src/page.php');
+
 class LoginController
 {
-	private $view_file = null;
-	private $title = null;
-	private $vars = [];
 
 	private function handle_get()
 	{
-		$this->view_file = realpath(__root_dir . '/private/login/view.php');
-		$this->title = 'Login';
+		Page::$content_file = realpath(__root_dir . '/private/login/view.php');
+		Page::$title = 'Login';
+		return Result::make_ok();
 	}
 
 	private function handle_post()
 	{
-		$this->view_file = realpath(__root_dir . '/private/login/view.php');
-		$this->title = 'Login';
+		Page::$content_file = realpath(__root_dir . '/private/login/view.php');
+		Page::$title = 'Login';
 
 		$result = login_user($_POST['username'], $_POST['password']);
 
 		if ($result->is_err()) {
-			$err  = ErrCode_to_string($result->err);
-			$_SESSION['msgs'][] = "failed to login: $err";
-			return;
+			return $result;
 		}
 
 		$_SESSION['username'] = $_POST['username'];
-		$_SESSION['user_id'] = $result->value;
+		$_SESSION['user_id'] = $result->value();
 		$_SESSION['password_hash'] = $_POST['password_hash'];
 		$_SESSION['msgs'][] = 'Logged in!';
+		return Result::make_ok();
 	}
 
-	private function render()
-	{
-		$page_title = $this->title;
-		$content_file = $this->view_file;
-		extract($this->vars);
-		require realpath(__root_dir . '/private/_common/view/layout.php');
-	}
 
 	public function handle()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$this->handle_post();
+			return  $this->handle_post();
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			$this->handle_get();
+			return $this->handle_get();
 		}
-
-		$this->render();
+		return Result::make_err(ErrCode::Err);
 	}
 }

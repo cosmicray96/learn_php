@@ -126,7 +126,7 @@ function register_user(string $username, string $password): Result
 
 	try {
 		$pdo = get_pdo();
-		$stmt = $pdo->prepare('insert into users (username, password_hash) values (?, ?)');
+		$stmt = $pdo->prepare('insert into users (username, password_hash, id) values (?, ?, ?)');
 		$password_hash = password_hash($password, PASSWORD_DEFAULT);
 		$stmt->execute([$username, $password_hash]);
 	} catch (PDOException $e) {
