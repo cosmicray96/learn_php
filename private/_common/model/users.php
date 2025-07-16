@@ -1,71 +1,69 @@
 <?php
+require_once realpath(__root_dir . '/private/_common/src/exception.php');
 require_once realpath(__root_dir . '/private/_common/model/db.php');
-require_once realpath(__root_dir . '/private/_common/src/result.php');
+require_once realpath(__root_dir . '/private/_common/model/id_generator.php');
 
-function get_user(int $user_id): Result
+
+
+class AuthExp extends AppException {}
+class AuthInvalidUsernameExp extends AuthExp {}
+class AuthInvalidPasswordExp extends AuthExp {}
+class AuthWrongPasswordExp extends AuthExp {}
+class AuthNameTakenExp extends AuthExp {}
+
+
+function get_user(int $user_id): array
 {
-	$result = user_exists($user_id);
-	if ($result->is_err()) {
-		return $result;
+	if (!user_exists($user_id)) {
+		throw new DBNotFoundExp();
 	}
-	try {
-		$pdo = get_pdo();
-		$stmt = $pdo->prepare('select * from users where id = ? limit 1');
-		$stmt->execute([$user_id]);
-		return Result::make_ok($stmt->fetch());
-	} catch (PDOException $e) {
-		return Result::make_exception($e);
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('select * from users where id = ? limit 1');
+	$stmt->execute([$user_id]);
+	$result = $stmt->fetch();
+	if ($result === false) {
+		throw new DBNotFoundExp();
 	}
+	return $result;
 }
 
-function user_exists(int $user_id): Result
+function user_exists(int $user_id): bool
 {
-	try {
-		$pdo = get_pdo();
-		$stmt = $pdo->prepare('select 1 from users where id = ? limit 1');
-		$stmt->execute([$user_id]);
-		$result = $stmt->fetch();
-	} catch (PDOException $e) {
-		return Result::make_exception($e);
-	}
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('select 1 from users where id = ? limit 1');
+	$stmt->execute([$user_id]);
+	$result = $stmt->fetch();
+
 	if ($result === false) {
-		return Result::make_err(ErrCode::DB_NotFound);
+		return false;
 	}
-	return Result::make_ok(true);
+	return true;
 }
 
 // returns int
-function user_id_from_name(string $username): Result
+function user_id_from_name(string $username): mixed
 {
-	try {
-		$pdo = get_pdo();
-		$stmt = $pdo->prepare('select id from users where username = ? limit 1');
-		$stmt->execute([$username]);
-		$result = $stmt->fetch();
-	} catch (PDOException $e) {
-		return Result::make_exception($e);
-	}
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('select id from users where username = ? limit 1');
+	$stmt->execute([$username]);
+	$result = $stmt->fetch();
 	if ($result === false) {
-		return Result::make_err(ErrCode::DB_NotFound);
+		return null;
 	}
-	return Result::make_ok($result['id']);
+	return $result['id'];
 }
 
-//returns string
-function username_from_id(int $user_id): Result
+function username_from_id(int $user_id): string
 {
-	try {
-		$pdo = get_pdo();
-		$stmt = $pdo->prepare('select username from users where id = ? limit 1');
-		$stmt->execute([$user_id]);
-		$result = $stmt->fetch();
-	} catch (PDOException $e) {
-		return Result::make_exception($e);
-	}
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('select username from users where id = ? limit 1');
+	$stmt->execute([$user_id]);
+	$result = $stmt->fetch();
+
 	if ($result === false) {
-		return Result::make_err(ErrCode::DB_NotFound);
+		throw new DBNotFoundExp();
 	}
-	return Result::make_ok($result['username']);
+	return $result['username'];
 }
 
 function verify_username(string $username): bool
@@ -78,64 +76,54 @@ function verify_password(string $password): bool
 }
 
 // returns int
-function login_user(string $username, string $password): Result
+function login_user(string $username, string $password): mixed
 {
 	if (!verify_password($password)) {
-		return Result::make_err(ErrCode::Auth_InvalidPassword);
+		throw new AuthInvalidPasswordExp();
 	}
 	if (!verify_username($username)) {
-		return Result::make_err(ErrCode::Auth_InvalidUsername);
+		throw new AuthInvalidUsernameExp();
 	}
 
-	try {
-		$pdo = get_pdo();
-		$stmt = $pdo->prepare('select id, password_hash from users where username = ? limit 1');
-		$stmt->execute([$username]);
-		$result = $stmt->fetch();
-	} catch (PDOException $e) {
-		return Result::make_exception($e);
-	}
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('select id, password_hash from users where username = ? limit 1');
+	$stmt->execute([$username]);
+	$result = $stmt->fetch();
 
 	if ($result === false) {
-		return Result::make_err(ErrCode::DB_NotFound);
+		throw new DBNotFoundExp();
 	}
 
 	if (!password_verify($password, $result['password_hash'])) {
-		return Result::make_err(ErrCode::Auth_WrongPassword);
+		throw new AuthWrongPasswordExp();
 	}
-	return Result::make_ok($result['id']);
+	return $result['id'];
 }
 
 // returns int
-function register_user(string $username, string $password): Result
+function register_user(string $username, string $password): mixed
 {
 	if (!verify_password($password)) {
-		return Result::make_err(ErrCode::Auth_InvalidPassword);
+		throw new AuthInvalidPasswordExp();
 	}
 	if (!verify_username($username)) {
-		return Result::make_err(ErrCode::Auth_InvalidUsername);
+		throw new AuthInvalidUsernameExp();
 	}
 
-	$result = user_id_from_name($username);
-	if ($result->is_ok()) {
-		return Result::make_err(ErrCode::Auth_NameTaken);
-	}
-	if ($result->error() !== ErrCode::DB_NotFound) {
-		return $result;
+	if (user_id_from_name($username) !== null) {
+		throw new AuthNameTakenExp();
 	}
 
-	try {
-		$pdo = get_pdo();
-		$stmt = $pdo->prepare('insert into users (username, password_hash, id) values (?, ?, ?)');
-		$password_hash = password_hash($password, PASSWORD_DEFAULT);
-		$stmt->execute([$username, $password_hash]);
-	} catch (PDOException $e) {
-		return Result::make_exception($e);
+	$next_id = next_id('users', 'id');
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('insert into users (username, password_hash, id) values (?, ?, ?)');
+	$password_hash = password_hash($password, PASSWORD_DEFAULT);
+	$stmt->execute([$username, $password_hash, $next_id]);
+
+	$user_id = user_id_from_name($username);
+	if ($user_id === null) {
+		throw new DBExp();
 	}
 
-	$result = user_id_from_name($username);
-	if ($result->is_err()) {
-		return Result::make_err(ErrCode::Err);
-	}
-	return Result::make_ok($result->value());
+	return $user_id;
 }

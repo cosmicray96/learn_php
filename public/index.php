@@ -20,13 +20,8 @@ try {
 	}
 
 	$controller = $routes[$path]();
-	$result = $controller->handle();
-	if ($result->is_err()) {
-		if ($result->error() === ErrCode::Exception) {
-			throw $result->value();
-		}
-	}
-	render();
+	$controller->handle();
+	Renderer::render();
 	destroy_on_success();
 } catch (Throwable $e) {
 	http_response_code(500);
