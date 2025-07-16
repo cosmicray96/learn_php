@@ -13,3 +13,5 @@ class AppException extends Exception
 		return $output;
 	}
 }
+
+class AppNotImplExp extends AppException {}

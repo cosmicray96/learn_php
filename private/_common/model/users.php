@@ -53,7 +53,7 @@ function user_id_from_name(string $username): mixed
 	return $result['id'];
 }
 
-function username_from_id(int $user_id): string
+function username_from_id(int $user_id): ?string
 {
 	$pdo = DB::get_pdo();
 	$stmt = $pdo->prepare('select username from users where id = ? limit 1');
@@ -61,7 +61,7 @@ function username_from_id(int $user_id): string
 	$result = $stmt->fetch();
 
 	if ($result === false) {
-		throw new DBNotFoundExp();
+		return null;
 	}
 	return $result['username'];
 }

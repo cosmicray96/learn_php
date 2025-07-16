@@ -1,7 +1,5 @@
 <?php
 
-require_once __root_dir . '/private/_common/src/page.php';
-
 class Renderer
 {
 	private static ?string $s_title = null;
@@ -28,10 +26,11 @@ class Renderer
 
 	static public function render()
 	{
-
 		$page_title = Renderer::$s_title;
 		$content_file = Renderer::$s_content_file;
-		extract(Renderer::$s_vars);
+		if (Renderer::$s_vars) {
+			extract(Renderer::$s_vars);
+		}
 		require Renderer::$s_layout_file;
 	}
 }

@@ -12,13 +12,12 @@ class DBPermissionDeniedExp extends DBExp {}
 
 class DB
 {
-	public bool $s_is_transaction = false;
+	private static bool $s_is_transaction = false;
+	private static ?PDO $s_pdo = null;
 
-	private ?PDO $s_pdo = null;
-
-	static public function get_pdo(): PDO
+	public static function get_pdo(): PDO
 	{
-		if (self::$s_pdo) {
+		if (self::$s_pdo !== null) {
 			return self::$s_pdo;
 		}
 
@@ -47,5 +46,19 @@ class DB
 			throw new DBTransactionFailedExp();
 		}
 		return self::$s_pdo;
+	}
+
+	public static function destroy_on_success()
+	{
+		if (self::$s_is_transaction) {
+			self::$s_pdo->commit();
+		}
+	}
+
+	public static function destroy_on_failure()
+	{
+		if (self::$s_is_transaction) {
+			self::$s_pdo->rollBack();
+		}
 	}
 }

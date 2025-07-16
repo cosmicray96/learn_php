@@ -10,35 +10,39 @@ class LoginController
 	private function handle_get()
 	{
 		Renderer::set_content_file(realpath(__root_dir . '/private/login/view.php'));
+		Renderer::set_layout_file(realpath(__root_dir . '/private/_common/view/layout.php'));
 		Renderer::set_title('Login');
 	}
 
 	private function handle_post()
 	{
 		Renderer::set_content_file(realpath(__root_dir . '/private/login/view.php'));
+		Renderer::set_layout_file(realpath(__root_dir . '/private/_common/view/layout.php'));
 		Renderer::set_title('Login');
 
 		try {
-			$result = login_user($_POST['username'], $_POST['password']);
+			$user_id = login_user($_POST['username'], $_POST['password']);
+			$_SESSION['username'] = $_POST['username'];
+			$_SESSION['user_id'] = $user_id;
+			$_SESSION['password_hash'] = $_POST['password_hash'];
+			$_SESSION['msgs'][] = 'Logged in!';
 		} catch (AuthInvalidUsernameExp $e) {
+			$_SESSION['msgs'][] = 'Invalid Username';
 		} catch (AuthInvalidPasswordExp $e) {
+			$_SESSION['msgs'][] = 'Invalid Password';
 		} catch (AuthWrongPasswordExp $e) {
+			$_SESSION['msgs'][] = 'Wrong Password';
 		} catch (DBNotFoundExp $e) {
+			$_SESSION['msgs'][] = 'Username Not Found';
 		}
-
-		$_SESSION['username'] = $_POST['username'];
-		$_SESSION['user_id'] = $result->value();
-		$_SESSION['password_hash'] = $_POST['password_hash'];
-		$_SESSION['msgs'][] = 'Logged in!';
 	}
-
 
 	public function handle()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			return  $this->handle_post();
+			$this->handle_post();
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			return $this->handle_get();
+			$this->handle_get();
 		}
 	}
 }

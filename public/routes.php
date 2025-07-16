@@ -1,11 +1,13 @@
 <?php
-require_once realpath(__DIR__ . '/../private/index/controller.php');
-require_once realpath(__DIR__ . '/../private/login/controller.php');
-require_once realpath(__DIR__ . '/../private/register/controller.php');
-require_once realpath(__DIR__ . '/../private/new_post/controller.php');
-require_once realpath(__DIR__ . '/../private/posts/controller.php');
-require_once realpath(__DIR__ . '/../private/users/controller.php');
-require_once realpath(__DIR__ . '/../private/search/controller.php');
+require_once __DIR__ . '/../private/index/controller.php';
+require_once __DIR__ . '/../private/login/controller.php';
+/*
+require_once __DIR__ . '/../private/register/controller.php';
+require_once __DIR__ . '/../private/new_post/controller.php';
+require_once __DIR__ . '/../private/posts/controller.php';
+require_once __DIR__ . '/../private/users/controller.php';
+require_once __DIR__ . '/../private/search/controller.php';
+*/
 
 return [
 	'/' => fn() => new IndexController(),
