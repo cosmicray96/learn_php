@@ -2,10 +2,36 @@
 
 require_once __root_dir . '/private/_common/src/page.php';
 
-function render()
+class Renderer
 {
-	$page_title = Page::$title;
-	$content_file = Page::$layout_file;
-	extract($vars);
-	require Page::$layout_file;
+	private static ?string $s_title = null;
+	private static ?array $s_vars = null;
+	private static ?string $s_content_file = null;
+	private static ?string $s_layout_file = null;
+
+	static public function set_title(string $title)
+	{
+		Renderer::$s_title = $title;
+	}
+	static public function set_vars(array $vars)
+	{
+		Renderer::$s_vars = $vars;
+	}
+	static public function set_content_file(string $content_file)
+	{
+		Renderer::$s_content_file = $content_file;
+	}
+	static public function set_layout_file(string $layout_file)
+	{
+		Renderer::$s_layout_file = $layout_file;
+	}
+
+	static public function render()
+	{
+
+		$page_title = Renderer::$s_title;
+		$content_file = Renderer::$s_content_file;
+		extract(Renderer::$s_vars);
+		require Renderer::$s_layout_file;
+	}
 }
