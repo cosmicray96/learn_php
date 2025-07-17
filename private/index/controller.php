@@ -1,6 +1,6 @@
 <?php
-require_once realpath(__root_dir . '/private/_common/src/exception.php');
-require_once realpath(__root_dir . '/private/_common/src/render.php');
+require_once  __root_dir . '/private/_common/src/exception.php';
+require_once  __root_dir . '/private/_common/src/render.php';
 
 class IndexController
 {

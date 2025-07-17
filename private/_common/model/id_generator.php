@@ -10,12 +10,12 @@ function next_id(string $table, string $column): mixed
 {
 	$server_id = 123;
 	$pdo = DB::get_pdo();
-	$stmt = $pdo->prepare('select state, type from id_table where table_name = ? and column_name = ? limit 1 for update');
-	$stmt->execute([$table, $column]);
+	$stmt = $pdo->prepare('select state, type from id_table where server_id = ? and table_name = ? and column_name = ? limit 1 for update');
+	$stmt->execute([$server_id, $table, $column]);
 
 	$result = $stmt->fetch();
 	if ($result === false) {
-		throw new DBNotFoundExp("Requested metadata for table: $table and column: $column is not found.");
+		throw new DBNotFoundExp("Requested metadata for server_id: $server_id, table: $table, and column: $column is not found.");
 	}
 
 	$state = $result['state'];

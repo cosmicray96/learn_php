@@ -1,23 +1,23 @@
 <?php
-require_once realpath(__root_dir . '/private/_common/model/users.php');
+require_once  __root_dir . '/private/_common/model/users.php';
 
-require_once realpath(__root_dir . '/private/_common/src/exception.php');
-require_once realpath(__root_dir . '/private/_common/src/render.php');
+require_once __root_dir . '/private/_common/src/exception.php';
+require_once __root_dir . '/private/_common/src/render.php';
 
 class LoginController
 {
 
 	private function handle_get()
 	{
-		Renderer::set_content_file(realpath(__root_dir . '/private/login/view.php'));
-		Renderer::set_layout_file(realpath(__root_dir . '/private/_common/view/layout.php'));
+		Renderer::set_content_file(__DIR__ . '/view.php');
+		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
 		Renderer::set_title('Login');
 	}
 
 	private function handle_post()
 	{
-		Renderer::set_content_file(realpath(__root_dir . '/private/login/view.php'));
-		Renderer::set_layout_file(realpath(__root_dir . '/private/_common/view/layout.php'));
+		Renderer::set_content_file(__DIR__ . '/view.php');
+		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
 		Renderer::set_title('Login');
 
 		try {
