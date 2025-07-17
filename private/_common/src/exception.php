@@ -15,3 +15,4 @@ class AppException extends Exception
 }
 
 class AppNotImplExp extends AppException {}
+class AppNotReachableExp extends AppException {}

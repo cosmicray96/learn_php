@@ -1,6 +1,6 @@
 <?php
-require_once realpath(__root_dir . '/private/_common/model/db.php');
-require_once realpath(__root_dir . '/private/_common/src/result.php');
+require_once __root_dir . '/private/_common/model/db.php';
+require_once __root_dir . '/private/_common/src/exception.php';
 
 function get_post(int $post_id): array
 {
