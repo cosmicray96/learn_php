@@ -7,10 +7,8 @@
 </form>
 
 
-<?php if (isset($search_results_posts)): ?>
-	<?php $posts = $search_results_posts; ?>
-	<?php require realpath(__root_dir . '/private/_common/view/posts_container.php'); ?>
-<?php elseif (isset($search_results_users)): ?>
-	<?php $users = $search_results_users; ?>
-	<?php require realpath(__root_dir . '/private/_common/view/posts_container.php'); ?>
+<?php if (isset($posts)): ?>
+	<?php require __root_dir . '/private/_common/view/posts_container.php'; ?>
+<?php elseif (isset($users)): ?>
+	<?php require __root_dir . '/private/_common/view/users_container.php'; ?>
 <?php endif; ?>

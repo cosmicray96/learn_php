@@ -12,6 +12,7 @@
 #nav_ul {
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	border: 2px solid black;
 	justify-content: center;
 }

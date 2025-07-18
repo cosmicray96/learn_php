@@ -1,8 +1,7 @@
 <?php
 require_once __root_dir . '/private/_common/src/exception.php';
 require_once __root_dir . '/private/_common/model/db.php';
-require_once __root_dir . '/private/_common/model/search.php';
-require_once __root_dir . '/private/_common/model/users.php';
+require_once __root_dir . '/private/_common/model/posts.php';
 
 
 // returns assoc array of posts

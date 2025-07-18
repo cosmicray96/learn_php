@@ -22,9 +22,11 @@ a.no_style {
 	flex-direction: column;
 }
 
-.post {
+.post_container {
 	border: 2px solid black;
 	background-color: seagreen;
+	display: flex;
+	flex-direction: column;
 }
 
 /* Users */
@@ -37,4 +39,6 @@ a.no_style {
 .user_container {
 	border: 2px solid black;
 	background-color: olive;
+	display: flex;
+	flex-direction: column;
 }
