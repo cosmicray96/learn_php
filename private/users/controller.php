@@ -1,42 +1,30 @@
 <?php
-require_once realpath(__root_dir . '/private/_common/src/result.php');
-require_once realpath(__root_dir . '/private/_common/model/users.php');
-require_once realpath(__DIR__ . '/model.php');
+require_once __root_dir . '/private/_common/src/exception.php';
+require_once __root_dir . '/private/_common/model/users.php';
+require_once __root_dir . '/private/_common/src/render.php';
+require_once __DIR__ . '/model.php';
 
 class UsersController
 {
-
-	private $view_file = null;
-	private $title = null;
-	private $vars = [];
-
 	private function handle_get()
 	{
-		$this->title = 'Users';
-		$this->view_file = realpath(__DIR__ . '/view.php');
+		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
+		Renderer::set_title('Users');
 
-		if (isset($_GET['user_id'])) {
-			$result = get_user($_GET['user_id']);
-			if ($result->is_ok()) {
-				$this->vars['user'] = $result->unwrap();
-			} else {
-				$err = ErrCode_to_string($result->err);
-				$_SESSION['msgs'][] = "Error: $err";
+		if (isset($_GET['id'])) {
+			try {
+				$user = get_user($_GET['id']);
+			} catch (DBNotFoundExp $e) {
+				$_SESSION['msgs'][] = 'User not found.';
 			}
+			Renderer::add_var('user', $user);
+			Renderer::set_content_file(__DIR__ . '/view.php');
 			return;
 		}
-		$result = latest_users(5);
-		if ($result->is_ok()) {
-			$this->vars['users'] = $result->unwrap();
-		}
-	}
 
-	private function render()
-	{
-		$page_title = $this->title;
-		$content_file = $this->view_file;
-		extract($this->vars);
-		require realpath(__root_dir . '/private/_common/view/layout.php');
+		$users = latest_users(5);
+		Renderer::add_var('users', $users);
+		Renderer::set_content_file(__root_dir . '/private/_common/view/users_container.php');
 	}
 
 	public function handle()
@@ -45,6 +33,5 @@ class UsersController
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
 			$this->handle_get();
 		}
-		$this->render();
 	}
 }

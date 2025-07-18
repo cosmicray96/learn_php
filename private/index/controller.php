@@ -8,7 +8,7 @@ class IndexController
 	{
 		Renderer::set_content_file(__DIR__ . '/view.php');
 		Renderer::set_layout_file(realpath(__root_dir . '/private/_common/view/layout.php'));
-		Renderer::set_title('Login');
+		Renderer::set_title('Index');
 	}
 
 

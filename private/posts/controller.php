@@ -16,15 +16,13 @@ class PostsController
 				$_SESSION['msgs'][] = "post(id:{$_GET['id']} is not found.)";
 				return;
 			}
-			$vars['post'] = $post;
 			Renderer::set_content_file(__DIR__ . '/view.php');
-			Renderer::set_vars($vars);
+			Renderer::add_var('post', $post);
 			return;
 		}
 
 		$posts = latest_posts(5);
-		$vars['posts'] = $posts;
-		Renderer::set_vars($vars);
+		Renderer::add_var('posts', $posts);
 		return;
 	}
 

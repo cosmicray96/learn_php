@@ -1,14 +1,15 @@
+/*
 #msgs_container {
 	padding: 0;
 	margin: 0;
 	display: flex;
 	flex-direction: column;
 }
+*/
 
 .msg {
 	padding: 0;
 	margin: 1em;
 	border: 2px solid black;
-	display: flex;
 	flex-direction: row;
 }
