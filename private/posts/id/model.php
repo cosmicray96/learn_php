@@ -3,15 +3,41 @@ require_once __root_dir . '/private/_common/src/exception.php';
 require_once __root_dir . '/private/_common/model/db.php';
 require_once __root_dir . '/private/_common/model/posts.php';
 
-
-// returns assoc array of posts
-function latest_posts(int $count): array
+function get_comments($post_id): array
 {
 	$pdo = DB::get_pdo();
-	$stmt = $pdo->prepare('select id, title, left(body, 64) as body, user_id, created_at from posts order by created_at desc limit ?');
-	$stmt->bindValue(1, $count, PDO::PARAM_INT);
-	$stmt->execute();
+	$stmt = $pdo->prepare('
+		select 
+		comments.id as id,
+		comments.post_id as post_id,
+		comments.user_id as user_id,
+		comments.body as body,
+		comments.parent_id as parent_id,
+		comments.created_at as created_at,
+		users.username as username
+		from comments inner join users 
+		on users.id = comments.user_id
+		where comments.post_id = ?
+	');
+	$stmt->execute([$post_id]);
 	$result = $stmt->fetchAll();
-	add_username_to_posts($result);
-	return $result;
+
+	$refs = [];
+	$tree = [];
+	foreach ($result as &$comment) {
+		$refs[$comment['id']] = &$comment;
+		$comment['children'] = [];
+	}
+	foreach ($result as &$comment) {
+		if ($comment['parent_id'] === null) {
+			$tree[] = &$comment;
+		} else {
+			$refs[$comment['parent_id']]['children'][] = &$comment;
+		}
+	}
+	/*
+	error_log('Result: ' . json_encode($result));
+	error_log('Tree: ' . json_encode($tree));
+	*/
+	return $tree;
 }

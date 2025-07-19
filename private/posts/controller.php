@@ -18,7 +18,7 @@ class PostsController
 			return;
 		}
 
-		$posts = latest_posts(5);
+		$posts = latest_posts_with_username(5);
 		Renderer::add_var('posts', $posts);
 		return;
 	}

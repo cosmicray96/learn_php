@@ -1,5 +1,6 @@
 <?php
 require_once __root_dir . '/private/_common/model/posts.php';
+require_once __DIR__ . '/model.php';
 
 class Posts_IdController
 {
@@ -14,10 +15,11 @@ class Posts_IdController
 			$_SESSION['msgs'][] = "post(id:{$_GET['id']} is not found.)";
 			return;
 		}
-		Renderer::set_content_file(__DIR__ . '/view.php');
 		Renderer::add_var('post', $post);
-		// todo coments
+		$comments =	get_comments($_GET['id']);
+		Renderer::add_var('comments', $comments);
 	}
+
 
 	public function handle()
 	{
