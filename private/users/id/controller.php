@@ -1,18 +1,21 @@
 <?php
-require_once __root_dir . '/private/_common/src/exception.php';
+require_once __root_dir . '/private/_common/model/users.php';
 
-require_once __root_dir . '/private/_common/src/scripts/scripts.php';
-
-class ScriptsController
+class Users_IdController
 {
 	private function handle_get()
 	{
+		try {
+			$user = get_user($_GET['id']);
+		} catch (DBNotFoundExp $e) {
+			$_SESSION['msgs'][] = 'User not found.';
+		}
+		Renderer::set_title('Users');
+		Renderer::add_var('user', $user);
 		Renderer::set_content_file(__DIR__ . '/view.php');
 		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
-		Renderer::set_title('Scripts');
-		Scripts::add_bot_posts(0, 20);
-		Renderer::add_var('script_name', 'add_bot_posts');
 	}
+
 
 	public function handle()
 	{

@@ -14,12 +14,17 @@ class PostsController
 			return;
 		}
 
+		$page = isset($_GET['page']) ? $_GET['page'] : 0;
+
+		$item_per_page = 10;
+		$posts = paginated_post($page, $item_per_page);
+		$page_count = get_page_count($item_per_page);
+
+		Renderer::set_title('Posts');
 		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
 		Renderer::set_content_file(__DIR__ . '/view.php');
-		Renderer::set_title('Posts');
-
-		$posts = latest_posts_with_username(5);
 		Renderer::add_var('posts', $posts);
+		Renderer::add_var('page_count', $page_count);
 		return;
 	}
 
