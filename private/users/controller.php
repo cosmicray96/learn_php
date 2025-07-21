@@ -18,13 +18,13 @@ class UsersController
 				$_SESSION['msgs'][] = 'User not found.';
 			}
 			Renderer::add_var('user', $user);
-			Renderer::set_content_file(__DIR__ . '/view.php');
+			Renderer::set_content_file(__root_dir . '/private/_common/view/user/full.php');
 			return;
 		}
 
 		$users = latest_users(5);
 		Renderer::add_var('users', $users);
-		Renderer::set_content_file(__root_dir . '/private/_common/view/users_container.php');
+		Renderer::set_content_file(__DIR__ . '/view.php');
 	}
 
 	public function handle()
