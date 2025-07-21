@@ -63,13 +63,23 @@ a.no_style {
 	flex-direction: column;
 }
 
-.comment_container {
+.comment_full {
 	display: flex;
 	flex-direction: column;
 	border: 2px solid black;
 	background-color: powderblue;
 }
 
-.comment_container .comment_container {
+.comment_parent_full {
+	display: flex;
+	flex-direction: column;
+}
+
+.comment_full .comment_full {
 	padding-left: 4rem;
+}
+
+.comment_children_full {
+	display: flex;
+	flex-direction: column;
 }
