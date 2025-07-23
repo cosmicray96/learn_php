@@ -5,7 +5,6 @@ try {
 	require_once __root_dir . '/private/_common/src/render.php';
 	require_once __root_dir . '/private/_common/src/destroy.php';
 	require_once __root_dir . '/private/_common/src/controller.php';
-	require_once __root_dir . '/private/_common/view/layout/layout.php';
 
 	$routes = require __DIR__ . '/routes.php';
 	$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -21,11 +20,14 @@ try {
 		exit;
 	}
 
+	Renderer::add_view(new View('nav', __root_dir . '/private/_common/view/layout/nav.php', ['/assets/css/nav_container.css']));
+	Renderer::add_view(new View('msgs', __root_dir . '/private/_common/view/layout/msgs.php', ['/assets/css/msgs_container.css']));
+	Renderer::add_view(new View('foot', __root_dir . '/private/_common/view/layout/foot.php', ['/assets/css/foot_container.css']));
+	Renderer::add_main_view(new View('root', __root_dir . '/private/_common/view/layout/layout.php', ['/assets/css/core.css', '/assets/css/form.css']));
 	$controller = $routes[$path]();
-	$page_context = new PageContext();
-	$controller->handle($page_context);
-	render_layout($page_context);
-	Renderer::render($page_context);
+	$controller->handle();
+
+	Renderer::render();
 
 	destroy_on_success();
 } catch (Throwable $e) {

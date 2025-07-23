@@ -1,25 +1,24 @@
 <?php
 require_once __root_dir . '/private/_common/src/controller.php';
+require_once __root_dir . '/private/_common/src/render.php';
 require_once  __root_dir . '/private/_common/model/users.php';
 
 require_once __root_dir . '/private/_common/src/exception.php';
-require_once __root_dir . '/private/_common/src/render.php';
 require_once __DIR__ . '/view.php';
 
 class LoginController implements Controller
 {
 
-	private function handle_get(PageContext &$ctx)
+	private function handle_get()
 	{
-		$ctx->set_title('Login');
-		render_login_form($ctx);
+		Renderer::add_view(new View('content', __DIR__ . '/view.php', []));
+		Renderer::set_var_on_view('root', 'title', 'LoginLogin');
 	}
 
-	private function handle_post(PageContext &$ctx)
+	private function handle_post()
 	{
-		Renderer::set_content_file(__DIR__ . '/view.php');
-		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
-		Renderer::set_title('Login');
+		Renderer::add_view(new View('content', __DIR__ . '/view.php', []));
+		Renderer::set_var_on_view('root', 'title', 'LoginLogin');
 
 		try {
 			$user_id = login_user($_POST['username'], $_POST['password']);
@@ -38,12 +37,12 @@ class LoginController implements Controller
 		}
 	}
 
-	public function handle(PageContext &$ctx): void
+	public function handle(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$this->handle_post($ctx);
+			$this->handle_post();
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			$this->handle_get($ctx);
+			$this->handle_get();
 		}
 	}
 }
