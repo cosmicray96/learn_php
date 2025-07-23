@@ -4,6 +4,8 @@ try {
 
 	require_once __root_dir . '/private/_common/src/render.php';
 	require_once __root_dir . '/private/_common/src/destroy.php';
+	require_once __root_dir . '/private/_common/src/controller.php';
+	require_once __root_dir . '/private/_common/view/layout/layout.php';
 
 	$routes = require __DIR__ . '/routes.php';
 	$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -20,8 +22,11 @@ try {
 	}
 
 	$controller = $routes[$path]();
-	$controller->handle();
-	Renderer::render();
+	$page_context = new PageContext();
+	$controller->handle($page_context);
+	render_layout($page_context);
+	Renderer::render($page_context);
+
 	destroy_on_success();
 } catch (Throwable $e) {
 	http_response_code(500);
