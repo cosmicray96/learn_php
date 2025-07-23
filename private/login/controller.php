@@ -4,7 +4,6 @@ require_once __root_dir . '/private/_common/src/render.php';
 require_once  __root_dir . '/private/_common/model/users.php';
 
 require_once __root_dir . '/private/_common/src/exception.php';
-require_once __DIR__ . '/view.php';
 
 class LoginController implements Controller
 {
