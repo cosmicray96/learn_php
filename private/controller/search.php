@@ -1,15 +1,13 @@
 <?php
-require_once __root_dir . '/private/_common/src/exception.php';
-require_once __DIR__ . '/model.php';
+require_once __root_dir . '/private/src/controller.php';
+require_once __root_dir . '/private/model/search.php';
 
-class SearchController
+class SearchController implements Controller
 {
 	private function handle_get()
 	{
-		Renderer::set_content_file(__DIR__ . '/view.php');
-		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
-		Renderer::set_title('Search');
 
+		Renderer::add_view(new View('content', __view_dir . '/search.php', []));
 		if (!isset($_GET['query']) || !isset($_GET['type'])) {
 			return;
 		}
@@ -19,16 +17,18 @@ class SearchController
 
 		if ($type === 'post') {
 			$result = search_posts($query);
-			Renderer::add_var('posts', $result);
+			Renderer::set_var_on_view('content', 'posts', $result);
 		} elseif ($type === 'user') {
 			$result = search_users($query);
-			Renderer::add_var('users', $result);
+			Renderer::set_var_on_view('content', 'users', $result);
 		} else {
 			$_SESSION['msgs'][] = 'type should be post or user';
 		}
+
+		Renderer::set_var_on_view('root', 'title', 'Search');
 	}
 
-	public function handle()
+	public function handle(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			throw new AppNotImplExp();

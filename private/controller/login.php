@@ -1,23 +1,22 @@
 <?php
-require_once __root_dir . '/private/_common/src/controller.php';
-require_once __root_dir . '/private/_common/src/render.php';
-require_once  __root_dir . '/private/_common/model/users.php';
+require_once __root_dir . '/private/src/controller.php';
+require_once __root_dir . '/private/src/render.php';
+require_once  __root_dir . '/private/model/users.php';
 
-require_once __root_dir . '/private/_common/src/exception.php';
 
 class LoginController implements Controller
 {
 
 	private function handle_get()
 	{
-		Renderer::add_view(new View('content', __DIR__ . '/view.php', []));
-		Renderer::set_var_on_view('root', 'title', 'LoginLogin');
+		Renderer::add_view(new View('content', __view_dir . '/login.php', []));
+		Renderer::set_var_on_view('root', 'title', 'Login');
 	}
 
 	private function handle_post()
 	{
-		Renderer::add_view(new View('content', __DIR__ . '/view.php', []));
-		Renderer::set_var_on_view('root', 'title', 'LoginLogin');
+		Renderer::add_view(new View('content', __view_dir . '/login.php', []));
+		Renderer::set_var_on_view('root', 'title', 'Login');
 
 		try {
 			$user_id = login_user($_POST['username'], $_POST['password']);

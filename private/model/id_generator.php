@@ -1,9 +1,8 @@
 <?php
 
-require_once __root_dir . '/private/_common/src/exception.php';
-require_once __root_dir . '/private/_common/model/db.php';
-
-require_once __root_dir . '/private/_common/src/id_generator.php';
+require_once __root_dir . '/private/src/exception.php';
+require_once __root_dir . '/private/model/db.php';
+require_once __root_dir . '/private/src/id_generator.php';
 
 
 function next_id(string $table, string $column): mixed

@@ -1,5 +1,5 @@
 <?php
-require_once __root_dir . '/private/_common/src/exception.php';
+require_once __root_dir . '/private/src/exception.php';
 
 class IdGenExp extends AppException {}
 class IdGenIdMissMatchExp extends IdGenExp {}

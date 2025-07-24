@@ -1,10 +1,11 @@
 <?php
-require_once __root_dir . '/private/_common/model/posts.php';
-require_once __DIR__ . '/model.php';
+require_once __root_dir . '/private/src/controller.php';
+require_once __root_dir . '/private/model/posts.php';
+require_once __root_dir . '/private/model/posts.php';
 
-require_once __DIR__ . '/id/controller.php';
+require_once __DIR__ . '/posts/id.php';
 
-class PostsController
+class PostsController implements Controller
 {
 	private function handle_get()
 	{
@@ -20,15 +21,11 @@ class PostsController
 		$posts = paginated_post($page, $item_per_page);
 		$page_count = get_page_count($item_per_page);
 
-		Renderer::set_title('Posts');
-		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
-		Renderer::set_content_file(__DIR__ . '/view.php');
-		Renderer::add_var('posts', $posts);
-		Renderer::add_var('page_count', $page_count);
-		return;
+		Renderer::add_view(new View('content', __view_dir . '/posts.php', [], ['posts' => $posts, 'page_count' => $page_count]));
+		Renderer::set_var_on_view('root', 'title', 'Posts');
 	}
 
-	public function handle()
+	public function handle(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			throw new AppNotImplExp();

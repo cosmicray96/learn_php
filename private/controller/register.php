@@ -1,14 +1,20 @@
 <?php
-require_once __root_dir . '/private/_common/src/exception.php';
-require_once __root_dir . '/private/_common/model/users.php';
+require_once __root_dir . '/private/src/controller.php';
+require_once __root_dir . '/private/src/render.php';
+require_once  __root_dir . '/private/model/users.php';
 
-class RegisterController
+class RegisterController implements Controller
 {
+	private function handle_get()
+	{
+		Renderer::add_view(new View('content', __view_dir . '/register.php', []));
+		Renderer::set_var_on_view('root', 'title', 'Register');
+	}
+
 	private function handle_post()
 	{
-		Renderer::set_content_file(__DIR__ . '/view.php');
-		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
-		Renderer::set_title('Register');
+		Renderer::add_view(new View('content', __view_dir . '/register.php', []));
+		Renderer::set_var_on_view('root', 'title', 'Register');
 
 		try {
 			$user_id = register_user($_POST['username'], $_POST['password']);
@@ -25,14 +31,8 @@ class RegisterController
 		}
 	}
 
-	private function handle_get()
-	{
-		Renderer::set_content_file(__DIR__ . '/view.php');
-		Renderer::set_layout_file(__root_dir . '/private/_common/view/layout.php');
-		Renderer::set_title('Register');
-	}
 
-	public function handle()
+	public function handle(): void
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$this->handle_post();

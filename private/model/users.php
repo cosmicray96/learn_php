@@ -1,9 +1,7 @@
 <?php
-require_once realpath(__root_dir . '/private/_common/src/exception.php');
-require_once realpath(__root_dir . '/private/_common/model/db.php');
-require_once realpath(__root_dir . '/private/_common/model/id_generator.php');
-
-
+require_once __root_dir . '/private/src/exception.php';
+require_once __root_dir . '/private/model/db.php';
+require_once __root_dir . '/private/model/id_generator.php';
 
 class AuthExp extends AppException {}
 class AuthInvalidUsernameExp extends AuthExp {}
