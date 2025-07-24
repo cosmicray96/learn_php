@@ -19,6 +19,9 @@ class MainController implements Controller
 			echo "404 Not Found";
 			return;
 		}
+
+
+
 		$controller = $routes[$path]();
 		$controller->handle();
 

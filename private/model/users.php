@@ -125,3 +125,13 @@ function register_user(string $username, string $password): mixed
 
 	return $user_id;
 }
+
+function latest_users(int $count): array
+{
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('select * from users order by created_at desc limit ?');
+	$stmt->bindValue(1, $count, PDO::PARAM_INT);
+	$stmt->execute();
+	$result = $stmt->fetchAll();
+	return $result;
+}
