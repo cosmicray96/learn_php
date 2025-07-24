@@ -2,11 +2,15 @@
 if (!isset($users)) {
 	throw new AppException();
 }
-
 ?>
-<?php require_once __root_dir . '/private/view/component/user/full.php'; ?>
-<?php require_once __root_dir . '/private/view/function/list.php'; ?>
-
 <div class="users_container">
-	<?php render_list($users, 'render_user_reduced', 5, '/users?') ?>
+
+	<?php
+	$list = $users;
+	$item_name = 'user';
+	$render_file = __view_dir  . '/component/user/reduced.php';
+	$base_url = '/user?';
+	$page_count = $page_count;
+	require __view_dir . '/component/list.php';
+	?>
 </div>

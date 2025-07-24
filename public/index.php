@@ -11,6 +11,6 @@ try {
 	destroy_on_success();
 } catch (Throwable $e) {
 	http_response_code(500);
-	require __DIR__ . '/../private/_common/view/exception_container.php';
+	require __DIR__ . '/../private/view/page/exception.php';
 	destroy_on_failure();
 }
