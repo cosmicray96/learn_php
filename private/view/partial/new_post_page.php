@@ -1,3 +1,8 @@
+<?php
+if (!isset($_SESSION['username'])) {
+	throw new AppException();
+}
+?>
 <p>Make a new post as <?php echo $_SESSION['username']; ?></p>
 
 <form id="form" method="POST" action="/new_post">

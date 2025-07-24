@@ -1,5 +1,5 @@
 <?php
-require_once __root_dir . '/private/_common/src/render.php';
+require_once __root_dir . '/private/src/render.php';
 
 if (!isset($title)) {
 	throw new AppException();

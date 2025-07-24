@@ -11,14 +11,14 @@ class NewPostController implements Controller
 		Renderer::set_var_on_view('root', 'title', 'New Post');
 		if (isset($_SESSION['user_id'])) {
 
-			Renderer::add_view(new View('content', __view_dir . '/register.php', []));
+			Renderer::add_view(new View('content', __view_dir . '/partial/new_post_page.php', []));
 		} else {
-			Renderer::add_view(new View('content', __view_dir . '/need_to_login.php', []));
+			Renderer::add_view(new View('content', __view_dir . '/component/need_to_login.php', []));
 		}
 	}
 	private function handle_post()
 	{
-		Renderer::add_view(new View('content', __view_dir . '/register.php', []));
+		Renderer::add_view(new View('content', __view_dir . '/partial/new_post_page.php', []));
 		Renderer::set_var_on_view('root', 'title', 'New Post');
 
 		if (!isset($_SESSION['user_id'])) {

@@ -16,11 +16,30 @@ class MainController implements Controller
 
 		if (!isset($routes[$path])) {
 			http_response_code(404);
-			echo "404 Not Found";
+			require __view_dir . '/page/e404.php';
 			return;
 		}
 
-
+		Renderer::add_main_view(new View(
+			'root',
+			__view_dir . '/page/layout.php',
+			['/assets/css/core.css', '/assets/css/form.css']
+		));
+		Renderer::add_view(new View(
+			'nav',
+			__view_dir . '/component/layout/nav.php',
+			['/assets/css/nav_container.css']
+		));
+		Renderer::add_view(new View(
+			'msgs',
+			__view_dir . '/component/layout/msgs.php',
+			['/assets/css/msgs_container.css']
+		));
+		Renderer::add_view(new View(
+			'foot',
+			__view_dir . '/component/layout/foot.php',
+			['/assets/css/foot_container.css']
+		));
 
 		$controller = $routes[$path]();
 		$controller->handle();

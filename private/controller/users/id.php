@@ -12,7 +12,7 @@ class Users_IdController implements Controller
 			$_SESSION['msgs'][] = 'User not found.';
 		}
 
-		Renderer::add_view(new View('content', __view_dir . '/users/id.php', []));
+		Renderer::add_view(new View('content', __view_dir . '/partial/users/id.php', []));
 		Renderer::set_var_on_view('root', 'title', 'Users');
 		Renderer::set_var_on_view('content', 'user', $user);
 	}

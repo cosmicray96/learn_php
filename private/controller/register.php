@@ -7,13 +7,13 @@ class RegisterController implements Controller
 {
 	private function handle_get()
 	{
-		Renderer::add_view(new View('content', __view_dir . '/register.php', []));
+		Renderer::add_view(new View('content', __view_dir . '/partial/register_page.php', []));
 		Renderer::set_var_on_view('root', 'title', 'Register');
 	}
 
 	private function handle_post()
 	{
-		Renderer::add_view(new View('content', __view_dir . '/register.php', []));
+		Renderer::add_view(new View('content', __view_dir . '/partial/register_page.php', []));
 		Renderer::set_var_on_view('root', 'title', 'Register');
 
 		try {

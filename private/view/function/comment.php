@@ -14,9 +14,3 @@
 		</div>
 	</div>
 <?php } ?>
-
-<?php
-foreach ($comments as $comment) {
-	render_comment($comment);
-}
-?>

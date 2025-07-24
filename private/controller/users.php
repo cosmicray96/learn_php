@@ -18,7 +18,7 @@ class UsersController implements Controller
 
 		$users = latest_users(5);
 
-		Renderer::add_view(new View('content', __view_dir . '/users.php', []));
+		Renderer::add_view(new View('content', __view_dir . '/parital/users_page.php', []));
 		Renderer::set_var_on_view('root', 'title', 'Users');
 		Renderer::set_var_on_view('content', 'users', $users);
 	}

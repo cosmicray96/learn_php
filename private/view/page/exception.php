@@ -1,6 +1,16 @@
-<?php if (!isset($e)): ?>
-	<p>exception variable $e not provided!</p>
-<?php else: ?>
+<?php
+if (!isset($e)) {
+	echo "no exception provided";
+	exit;
+}
+?>
+<html>
+
+<head>
+	<title>404</title>
+</head>
+
+<body>
 	<div id="exception_container">
 		<h1>500 Internal Server Error</h1>
 
@@ -17,4 +27,7 @@
 			<?php echo nl2br($e->getTraceAsString()); ?>
 		</p>
 	</div>
-<?php endif; ?>
+
+</body>
+
+</html>

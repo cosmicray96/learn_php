@@ -6,7 +6,11 @@ class IndexController implements Controller
 {
 	private function handle_get(): void
 	{
-		Renderer::add_view(new View('content', __view_dir . '/index.php', []));
+		if (isset($_SESSION['username'])) {
+			Renderer::add_view(new View('content', __view_dir . '/partial/index_page.php', []));
+		} else {
+			Renderer::add_view(new View('content', __view_dir . '/component/need_to_login.php', []));
+		}
 		Renderer::set_var_on_view('root', 'title', 'Index');
 	}
 

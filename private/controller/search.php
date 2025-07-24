@@ -7,7 +7,7 @@ class SearchController implements Controller
 	private function handle_get()
 	{
 
-		Renderer::add_view(new View('content', __view_dir . '/search.php', []));
+		Renderer::add_view(new View('content', __view_dir . '/partial/search_page.php', []));
 		if (!isset($_GET['query']) || !isset($_GET['type'])) {
 			return;
 		}
