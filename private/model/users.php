@@ -135,3 +135,31 @@ function latest_users(int $count): array
 	$result = $stmt->fetchAll();
 	return $result;
 }
+
+function paginated_users(int $page, int $count)
+{
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('
+		select 
+		*
+		from users order by created_at desc 
+		limit ?
+		offset ?	
+		');
+	$offset = $page * $count;
+	$stmt->bindValue(1, $count, PDO::PARAM_INT);
+	$stmt->bindValue(2, $offset, PDO::PARAM_INT);
+	$stmt->execute();
+	$result = $stmt->fetchAll();
+	return $result;
+}
+
+function get_page_count_users($item_per_page): int
+{
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('
+		select count(*) from users');
+	$stmt->execute();
+	$users_count = $stmt->fetchColumn();
+	return ceil($users_count / $item_per_page);
+}

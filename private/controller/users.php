@@ -16,12 +16,15 @@ class UsersController implements Controller
 			return;
 		}
 
-		$users = latest_users(5);
+		$page = isset($_GET['page']) ? $_GET['page'] : 0;
+		$item_per_page = 10;
+		$users = paginated_users($page, $item_per_page);
+		$page_count = get_page_count($item_per_page);
 
 		Renderer::add_view(new View('content', __view_dir . '/partial/users_page.php', []));
 		Renderer::set_var_on_view('root', 'title', 'Users');
 		Renderer::set_var_on_view('content', 'users', $users);
-		Renderer::set_var_on_view('content', 'page_count', 5);
+		Renderer::set_var_on_view('content', 'page_count', $page_count);
 	}
 
 	public function handle(): void

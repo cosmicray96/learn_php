@@ -6,9 +6,14 @@
 	<button type="submit">Submit!</button>
 </form>
 
-
-<?php if (isset($posts)): ?>
-	<?php require __root_dir . '/private/_common/view/posts_container.php'; ?>
-<?php elseif (isset($users)): ?>
-	<?php require __root_dir . '/private/_common/view/users_container.php'; ?>
-<?php endif; ?>
+<?php
+if (isset($posts)) {
+	foreach ($posts as $post) {
+		Renderer::render_file(__view_dir . '/component/post/reduced.php', ['post' => $post]);
+	}
+} elseif (isset($users)) {
+	foreach ($users as $user) {
+		Renderer::render_file(__view_dir . '/component/user/reduced.php', ['user' => $user]);
+	}
+}
+?>

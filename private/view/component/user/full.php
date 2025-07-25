@@ -1,5 +1,5 @@
 <?php
-if (isset($user)) {
+if (!isset($user)) {
 	throw new AppVarNotProvidedExp('user');
 }
 ?>

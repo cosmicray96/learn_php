@@ -6,8 +6,8 @@ class SearchController implements Controller
 {
 	private function handle_get()
 	{
-
 		Renderer::add_view(new View('content', __view_dir . '/partial/search_page.php', []));
+		Renderer::set_var_on_view('root', 'title', 'Search');
 		if (!isset($_GET['query']) || !isset($_GET['type'])) {
 			return;
 		}
@@ -24,8 +24,6 @@ class SearchController implements Controller
 		} else {
 			$_SESSION['msgs'][] = 'type should be post or user';
 		}
-
-		Renderer::set_var_on_view('root', 'title', 'Search');
 	}
 
 	public function handle(): void
