@@ -2,7 +2,7 @@
 require_once __root_dir . '/private/src/render.php';
 
 if (!isset($title)) {
-	throw new AppException();
+	throw new AppVarNotProvidedExp('title');
 }
 ?>
 <!DOCTYPE html>

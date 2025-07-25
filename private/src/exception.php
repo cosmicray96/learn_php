@@ -16,3 +16,10 @@ class AppException extends Exception
 
 class AppNotImplExp extends AppException {}
 class AppNotReachableExp extends AppException {}
+class AppVarNotProvidedExp extends AppException
+{
+	public function __construct(string $var_name)
+	{
+		parent::__construct("variable `$var_name` not provided");
+	}
+}

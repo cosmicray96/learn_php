@@ -38,6 +38,12 @@ class Renderer
 		require $view->Path;
 	}
 
+	public static function render_file(string $path, array $vars = []): void
+	{
+		extract($vars);
+		require $path;
+	}
+
 	public static function add_main_view(View $view)
 	{
 		if (self::get_view($view->Name)) {

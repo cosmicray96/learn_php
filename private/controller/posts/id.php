@@ -14,7 +14,7 @@ class Posts_IdController implements Controller
 		}
 
 		$comments =	get_comments($_GET['id']);
-		Renderer::add_view(new View('content', __view_dir . '/partial/posts/id.php', [], ['post' => $post, 'comments' => $comments]));
+		Renderer::add_view(new View('content', __view_dir . '/partial/posts/id_page.php', [], ['post' => $post, 'comments' => $comments]));
 		Renderer::set_var_on_view('root', 'title', 'Posts');
 	}
 

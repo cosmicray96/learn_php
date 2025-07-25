@@ -1,6 +1,6 @@
 <?php
 if (!isset($post)) {
-	throw new AppException();
+	throw new AppVarNotProvidedExp('post');
 }
 ?>
 <a class="no_style" href="/posts?id=<?php echo $post['id']; ?>">

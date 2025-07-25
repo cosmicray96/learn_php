@@ -1,6 +1,6 @@
 <?php
 if (isset($user)) {
-	throw new AppException();
+	throw new AppVarNotProvidedExp('user');
 }
 ?>
 <div class="user_full">

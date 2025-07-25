@@ -1,12 +1,18 @@
 <?php
-if (
-	!isset($list) ||
-	!isset($item_name) ||
-	!isset($render_file) ||
-	!isset($page_count) ||
-	!isset($base_url)
-) {
-	throw new AppException();
+if (!isset($list)) {
+	throw new AppVarNotProvidedExp('list');
+}
+if (!isset($item_name)) {
+	throw new AppVarNotProvidedExp('item_name');
+}
+if (!isset($render_file)) {
+	throw new AppVarNotProvidedExp('render_file');
+}
+if (!isset($page_count)) {
+	throw new AppVarNotProvidedExp('page_count');
+}
+if (!isset($base_url)) {
+	throw new AppVarNotProvidedExp('base_url');
 }
 
 ?>

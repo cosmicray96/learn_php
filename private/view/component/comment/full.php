@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($comment)) {
-	throw new AppException();
+	throw new AppVarNotProvidedExp('comment');
 }
 
 $scope = function ($comment) {

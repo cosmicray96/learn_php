@@ -1,6 +1,6 @@
 <?php
 if (!isset($post)) {
-	throw new AppException();
+	throw new AppVarNotProvidedExp('post');
 }
 ?>
 <div class="post_full">

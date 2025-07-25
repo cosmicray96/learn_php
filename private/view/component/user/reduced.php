@@ -1,6 +1,6 @@
 <?php
 if (!isset($user)) {
-	throw new AppException();
+	throw new AppVarNotProvidedExp('user');
 }
 ?>
 <a class="no_style" href="/users?id=<?php echo $user['id']; ?>">
