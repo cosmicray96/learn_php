@@ -9,14 +9,16 @@ class LoginController implements Controller
 
 	private function handle_get()
 	{
-		Renderer::add_view(new View('content', __view_dir . '/partial/login_page.php', []));
-		Renderer::set_var_on_view('root', 'title', 'Login');
+		Renderer::add_view_2('login_page_view', __view_dir . '/partial/login_page.php', null, null);
+		Renderer::set_var_on_view('root', 'content_view', 'login_page_view');
+		Renderer::global_state_insert('title', 'Login');
 	}
 
 	private function handle_post()
 	{
-		Renderer::add_view(new View('content', __view_dir . '/partial/login_page.php', []));
-		Renderer::set_var_on_view('root', 'title', 'Login');
+		Renderer::add_view_2('login_page_view', __view_dir . '/partial/login_page.php', null, null);
+		Renderer::set_var_on_view('root', 'content_view', 'login_page_view');
+		Renderer::global_state_insert('title', 'Login');
 
 		try {
 			$user_id = login_user($_POST['username'], $_POST['password']);

@@ -20,11 +20,12 @@ function get_post(int $post_id): array
 	$stmt = $pdo->prepare('select * from posts where id = ? limit 1');
 	$stmt->execute([$post_id]);
 	$result = $stmt->fetch();
-	add_username_to_post($result);
 
 	if ($result === false) {
 		throw new DBNotFoundExp();
 	}
+
+	add_username_to_post($result);
 	return $result;
 }
 

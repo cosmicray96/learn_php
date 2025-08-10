@@ -8,18 +8,19 @@ class NewPostController implements Controller
 
 	private function handle_get()
 	{
-		Renderer::set_var_on_view('root', 'title', 'New Post');
 		if (isset($_SESSION['user_id'])) {
-
-			Renderer::add_view(new View('content', __view_dir . '/partial/new_post_page.php', []));
+			Renderer::add_view_2('new_post_page_view', __view_dir . '/partial/new_post_page.php', null, null);
 		} else {
-			Renderer::add_view(new View('content', __view_dir . '/component/need_to_login.php', []));
+			Renderer::add_view_2('new_post_page_view', __view_dir . '/component/need_to_login.php', null, null);
 		}
+		Renderer::set_var_on_view('root', 'content_view', 'new_post_page_view');
+		Renderer::global_state_insert('title', 'New Post');
 	}
 	private function handle_post()
 	{
-		Renderer::add_view(new View('content', __view_dir . '/partial/new_post_page.php', []));
-		Renderer::set_var_on_view('root', 'title', 'New Post');
+		Renderer::add_view_2('new_post_page_view', __view_dir . '/partial/new_post_page.php', null, null);
+		Renderer::set_var_on_view('root', 'content_view', 'new_post_page_view');
+		Renderer::global_state_insert('title', 'New Post');
 
 		if (!isset($_SESSION['user_id'])) {
 			throw new AppNotReachableExp();

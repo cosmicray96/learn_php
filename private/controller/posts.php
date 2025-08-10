@@ -20,8 +20,9 @@ class PostsController implements Controller
 		$posts = paginated_post($page, $item_per_page);
 		$page_count = get_page_count($item_per_page);
 
-		Renderer::add_view(new View('content', __view_dir . '/partial/posts_page.php', [], ['posts' => $posts, 'page_count' => $page_count]));
-		Renderer::set_var_on_view('root', 'title', 'Posts');
+		Renderer::add_view_2('posts_page_view', __view_dir . '/partial/posts_page.php', ['posts' => $posts, 'page_count' => $page_count], null);
+		Renderer::set_var_on_view('root', 'content_view', 'posts_page_view');
+		Renderer::global_state_insert('title', 'Posts');
 	}
 
 	public function handle(): void

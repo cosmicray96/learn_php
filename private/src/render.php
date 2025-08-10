@@ -4,10 +4,10 @@ class View
 {
 	public string $Name;
 	public string $Path;
-	public array $Vars;
-	public array $Css;
+	public ?array $Vars;
+	public ?array $Css;
 
-	public function __construct(string $name, string $path, array $css, array $vars = [])
+	public function __construct(string $name, string $path, ?array $vars, ?array $css)
 	{
 		$this->Name = $name;
 		$this->Path = $path;
@@ -19,6 +19,7 @@ class View
 class Renderer
 {
 	private static array $_views = [];
+	private static array $_global_state = [];
 
 	public static function render()
 	{
@@ -34,7 +35,9 @@ class Renderer
 		if (!$view) {
 			throw new AppException();
 		}
-		extract($view->Vars);
+		if ($view->Vars) {
+			extract($view->Vars);
+		}
 		require $view->Path;
 	}
 
@@ -59,12 +62,28 @@ class Renderer
 		}
 	}
 
+	public static function add_view_2(string $name, string $path, ?array $vars, ?array $css)
+	{
+		self::$_views[] = new View($name, $path, $vars, $css);
+	}
+
+	public static function global_state_insert(string $name, mixed $value): void
+	{
+		self::$_global_state["$name"] = $value;
+	}
+	public static function &global_state(): array
+	{
+		return self::$_global_state;
+	}
+
 	public static function get_css(): array
 	{
 		$css = [];
 		foreach (self::$_views as $view) {
-			foreach ($view->Css as $c) {
-				$css[] = $c;
+			if ($view->Css) {
+				foreach ($view->Css as $c) {
+					$css[] = $c;
+				}
 			}
 		}
 		return $css;

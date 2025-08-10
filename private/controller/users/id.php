@@ -16,9 +16,9 @@ class Users_IdController implements Controller
 			return;
 		}
 
-		Renderer::add_view(new View('content', __view_dir . '/partial/users/id_page.php', []));
-		Renderer::set_var_on_view('root', 'title', 'Users');
-		Renderer::set_var_on_view('content', 'user', $user);
+		Renderer::add_view_2('users_id_page_view', __view_dir . '/partial/users/id_page.php', ['user' => $user], null);
+		Renderer::set_var_on_view('root', 'content_view', 'users_id_page_view');
+		Renderer::global_state_insert('title', 'Users Id');
 	}
 
 	public function handle(): void

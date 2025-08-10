@@ -23,21 +23,25 @@ class MainController implements Controller
 		Renderer::add_main_view(new View(
 			'root',
 			__view_dir . '/page/layout.php',
+			null,
 			['/assets/css/core.css', '/assets/css/form.css']
 		));
 		Renderer::add_view(new View(
 			'nav',
 			__view_dir . '/component/layout/nav.php',
+			null,
 			['/assets/css/nav_container.css']
 		));
 		Renderer::add_view(new View(
 			'msgs',
 			__view_dir . '/component/layout/msgs.php',
+			null,
 			['/assets/css/msgs_container.css']
 		));
 		Renderer::add_view(new View(
 			'foot',
 			__view_dir . '/component/layout/foot.php',
+			null,
 			['/assets/css/foot_container.css']
 		));
 
