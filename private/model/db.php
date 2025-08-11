@@ -6,6 +6,7 @@ class DBExp extends AppException {}
 class DBCannotConnectExp extends DBExp {}
 class DBNotFoundExp extends DBExp {}
 class DBInvalidQueryExp extends DBExp {}
+class DBFailedQueryExp extends DBExp {}
 class DBTransactionFailedExp extends DBExp {}
 class DBPermissionDeniedExp extends DBExp {}
 

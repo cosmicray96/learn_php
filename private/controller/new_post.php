@@ -35,8 +35,15 @@ class NewPostController implements Controller
 		$_SESSION['msgs'][]	= 'New post submitted';
 	}
 
-	public function handle(): void
+	public function handle(SegmentedPath &$segmented_path): void
 	{
+		$segmented_path->consume_cur_segment();
+
+		if ($segmented_path->peek_cur_segment() !== null) {
+			(new Users_IdController())->handle($segmented_path);
+			return;
+		}
+
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$this->handle_post();
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {

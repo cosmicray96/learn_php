@@ -2,23 +2,51 @@
 require_once __root_dir . '/private/src/controller.php';
 require_once __root_dir . '/private/src/render.php';
 
-class MainController implements Controller
+require_once __root_dir . '/private/config/routes.php';
+
+class MainController
 {
 	public function handle(): void
 	{
-		$routes = require __root_dir . '/private/config/routes.php';
-		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+		$segmented_path = new SegmentedPath();
+		$segment = $segmented_path->peek_cur_segment();
 
-		$path = rtrim($path, '/');
-		if ($path === '') {
-			$path = '/';
+		$controller = null;
+		switch ($segment) {
+			case null:
+			case 'index':
+				$controller = new IndexController($segmented_path);
+				break;
+			case 'login':
+				$controller = new LoginController($segmented_path);
+				break;
+			case 'register':
+				$controller = new RegisterController($segmented_path);
+				break;
+			case 'users':
+				$controller = new UsersController($segmented_path);
+				break;
+			case 'posts':
+				$controller = new PostsController($segmented_path);
+				break;
+			case 'new_post':
+				$controller = new NewPostController($segmented_path);
+				break;
+			case 'search':
+				$controller = new SearchController($segmented_path);
+				break;
+			default:
+				$controller = new E404Controller($segmented_path);
+				break;
 		}
 
-		if (!isset($routes[$path])) {
-			http_response_code(404);
-			require __view_dir . '/page/e404.php';
-			return;
-		}
+		$this->add_default_layout();
+		$controller->handle($segmented_path);
+		Renderer::render();
+	}
+
+	private function add_default_layout(): void
+	{
 
 		Renderer::add_main_view(new View(
 			'root',
@@ -44,13 +72,5 @@ class MainController implements Controller
 			null,
 			['/assets/css/foot_container.css']
 		));
-
-		$controller = $routes[$path]();
-		$controller->handle();
-
-		// Add Layout render stuff
-
-
-		Renderer::render();
 	}
 }

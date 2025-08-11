@@ -163,3 +163,18 @@ function get_page_count_users($item_per_page): int
 	$users_count = $stmt->fetchColumn();
 	return ceil($users_count / $item_per_page);
 }
+
+function delete_user($user_id): void
+{
+	$pdo = DB::get_pdo();
+	$stmt = $pdo->prepare('
+		delete from users
+		where id = ?');
+	$result = $stmt->execute([$user_id]);
+	if (!$result) {
+		throw new DBFailedQueryExp('Failed to delete user');
+	}
+	if ($stmt->rowCount() == 0) {
+		throw new DBNotFoundExp("user(id:$user_id) not found");
+	}
+}

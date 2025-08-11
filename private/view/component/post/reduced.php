@@ -3,7 +3,7 @@ if (!isset($post)) {
 	throw new AppVarNotProvidedExp('post');
 }
 ?>
-<a class="no_style" href="/posts?id=<?php echo $post['id']; ?>">
+<a class="no_style" href="/posts/<?php echo $post['id']; ?>">
 	<div class="post_reduced">
 		<h2>Title: <?php echo $post['title']; ?></h2>
 		<p>Made By: <?php echo $post['username']; ?></p>

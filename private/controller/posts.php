@@ -8,12 +8,6 @@ class PostsController implements Controller
 {
 	private function handle_get()
 	{
-		if (isset($_GET['id'])) {
-			$controller = new Posts_IdController();
-			$controller->handle();
-			return;
-		}
-
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
 
 		$item_per_page = 10;
@@ -25,8 +19,15 @@ class PostsController implements Controller
 		Renderer::global_state_insert('title', 'Posts');
 	}
 
-	public function handle(): void
+	public function handle(SegmentedPath &$segmented_path): void
 	{
+		$segmented_path->consume_cur_segment();
+
+		if ($segmented_path->peek_cur_segment() !== null) {
+
+			(new Posts_IdController())->handle($segmented_path);
+			return;
+		}
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			throw new AppNotImplExp();
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {

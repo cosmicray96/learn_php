@@ -34,8 +34,15 @@ class RegisterController implements Controller
 	}
 
 
-	public function handle(): void
+	public function handle(SegmentedPath &$segmented_path): void
 	{
+		$segmented_path->consume_cur_segment();
+
+		if ($segmented_path->peek_cur_segment() !== null) {
+			(new E404Controller())->handle($segmented_path);
+			return;
+		}
+
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$this->handle_post();
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
